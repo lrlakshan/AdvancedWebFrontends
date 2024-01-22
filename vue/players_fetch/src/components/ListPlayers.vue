@@ -1,19 +1,23 @@
-<!-- 
+<template>
+  <div>
+    <h2>List of Players</h2>
+    <ul id="players-list">
+      <ListPlayer
+        v-for="player in players"
+        :key="player.id"
+        :player="player"
+        @player-clicked="handlePlayerClicked"
+      />
+    </ul>
+  </div>
+</template>
 
-  Useful to read: 
-  - https://vuejs.org/guide/scaling-up/sfc.html
-  - https://vuejs.org/guide/essentials/component-basics.html
-  - https://vuejs.org/guide/essentials/list
-  - https://vuejs.org/guide/components/props.html
-  - https://vuejs.org/guide/components/events.html
-  
-  
-  Student instructions: 
+<script setup>
+import ListPlayer from './ListPlayer.vue';
 
-  This component is used to display a list of players. It receives getPlayer and players as props.
+const props = defineProps(['players', 'getPlayer']);
 
-  1. Create an unordered list with an id of players-list. Render the ListPlayer component for each player in the list.
-
-  2. Listen for "player-clicked" events from the ListPlayer component, and call the getPlayer prop function with the id of the clicked player as an argument.
-
--->
+const handlePlayerClicked = (playerId) => {
+  props.getPlayer(playerId);
+};
+</script>
