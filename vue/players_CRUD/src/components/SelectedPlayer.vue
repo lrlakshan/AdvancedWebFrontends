@@ -1,15 +1,51 @@
-<!-- 
-  Copy paste your code from the ListPlayer.vue file here from the previous exercise.
+<template>
+  <h3 v-if="player">Selected Player</h3>
+  <h3 v-else="player">No Player Selected</h3>
+  <div v-if="player" id="selected-player">
+    <div class="player-id">{{ player.id }}</div>
+    <div id="player-name">{{ player.name }}</div>
+    <div id="player-status">
+      <label for="checkbox" id="checkbox-label">
+        <input type="checkbox" id="checkbox" :checked="playerCurrentStatus" @change="handleCheckboxChange" />
+        <span class="checkmark"></span>
+        {{ playerCurrentStatus ? 'active' : 'inactive' }}
+      </label>
+    </div>
+    <div>
+      <button class="btn-update" :disabled="playerCurrentStatus === player.isActive" @click="updatePlayer">
+        Update
+      </button>
+      <button class="btn-delete" @click="deletePlayer">
+        Delete
+      </button>
+    </div>
+  </div>
+</template>
 
-  In addition to the code from the previous exercise, you need to add the following logic inside the SelectedPlayer component:
+<script setup>
+import { ref, watch } from 'vue';
 
-  - Display the player's id in an element with the class attribute "player-id".
+const props = defineProps(["player"]);
+const emit = defineEmits(['put-player', 'delete-player']);
 
-  - Inside the element with the id "player-status", add a label with the text "active" or "inactive" depending on the status of the player. The label should have an id of "checkbox-label", and inside it there should be a checkbox with an id of "checkbox". 
-      - By default, the checkbox should be checked if the player is active and unchecked if the player is inactive. Unlike in elm exercises, toggling the checkbox should not automatically update the player in the backend, instead it is done by the update button (check next point). For styling purposes, add an empty span with the class attribute "checkmark" inside the label. Much like in the elm exercises, the checkbox should be listening to the change event. 
+const playerCurrentStatus = ref(props.player?.isActive);
 
-  - Add an update button with the class attribute "btn-update". The button should be disabled if the current active state of the checkmark is not different from the players "isActive" state. Add logic to send the "put-player" event when the button is clickable and the user clicks it. The event should pass the players "isActive" state as a parameter.
+const handleCheckboxChange = () => {
+  playerCurrentStatus.value = !playerCurrentStatus.value;
+};
 
-  - Add a delete button with the class attribute "btn-delete". Add logic to send the "delete-player" event when the user clicks the button. The event should pass the id of the player as a parameter.
+const updatePlayer = () => {
+  if (playerCurrentStatus !== props.player.isActive) {
+    emit("put-player", playerCurrentStatus.value);
+  }
+};
 
- -->
+const deletePlayer = () => {
+  emit("delete-player", props.player.id);
+};
+
+watch(() => props.player, (newPlayer) => {
+  playerCurrentStatus.value = newPlayer?.isActive;
+});
+
+</script>

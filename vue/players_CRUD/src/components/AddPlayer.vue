@@ -1,13 +1,22 @@
-<!-- 
-  Student instructions to create this component:
+<template>
+  <h3>Add Player</h3>
+  <form id="submit-player" @submit.prevent="submitPlayer">
+    <input type="text" id="input-player" v-model="newPlayerName" placeholder="Enter player name" required />
+    <button type="submit" class="btn-add">Add Player</button>
+  </form>
+</template>
 
-  1. Create a form with an id of "submit-player" for submitting a new player. It emits an event called "add-player" with the name of the new player as a parameter when submitted.
+<script setup>
+import { ref } from 'vue';
 
-  2. Create an input field with an id of "input-player" where the name of the new player should be added. Optionally Add a placeholder attribute for the input.
+const emits = defineEmits(['add-player']);
 
-  3. Create a button with a class of "btn-add" that will submit the form when clicked.
+const newPlayerName = ref("");
 
-
-  While you might pass the unit tests, there may be some extra attributes or functionality that you need to add in order to get the component to work properly in the e2e tests. Please refer to the e2e tests for more details (found in cypress/e2e).
-
- -->
+const submitPlayer = () => {
+  if (newPlayerName.value.trim() !== "") {
+    emits("add-player", newPlayerName.value.trim());
+    newPlayerName.value = "";
+  }
+};
+</script>
