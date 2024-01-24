@@ -1,3 +1,19 @@
-<!-- 
-  Copy paste your code from the ListPlayer.vue file here from the previous exercise. No changes are needed if you managed to get the component to work properly in the previous exercise.
- -->
+<template>
+  <div>
+    <h2>List of Players</h2>
+    <ul id="players-list">
+      <ListPlayer v-for="player in players" :key="player.id" :player="player" @player-clicked="handlePlayerClicked" />
+    </ul>
+  </div>
+</template>
+
+<script setup>
+import ListPlayer from './ListPlayer.vue';
+
+const props = defineProps(['players', 'getPlayer']);
+
+const handlePlayerClicked = (playerId) => {
+  props.getPlayer(playerId);
+};
+</script>
+

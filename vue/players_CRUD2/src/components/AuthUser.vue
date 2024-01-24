@@ -1,20 +1,80 @@
-<!-- 
+<template>
+  <div>
+    <a v-if="isAuthLinkVisible" @click="toggleAuthState">{{ authLinkText }}</a>
+    <a v-else @click="logout">Logout</a>
 
-  
-  Student instructions to create this component:
+    <form id="auth-form" v-if="isLoginFormVisible || isRegisterFormVisible" @submit.prevent="submitForm">
+      <label for="username">Username:</label>
+      <input
+        id="username"
+        name="auth-username"
+        type="text"
+        v-model="username"
+        required
+      />
 
-  The functionality of this component is two fold: 
-  1. Display a link that toggles between "Go to login", "Go to register", and "Logout" depending on the value of the isLoggedIn prop: By default, it is "Go to register", when the user is not logged in.  
-  - User logged in: display "Logout". The link should emit a logout event when clicked.
-  - User not logged in and in login: display "Go to register". 
-  - User not logged in and in register: display "Go to login".
-  
-  2. When user is trying to log in or register, the component should display a form with two input fields and a submit button. The form should submit the username and password to the submit function when submitted. The input fields should be required.
+      <label for="password">Password:</label>
+      <input
+        id="password"
+        name="auth-password"
+        type="password"
+        v-model="password"
+        required
+      />
 
-  - One input field for username with an id of "username", name of "auth-username" and type of "text".
-  - One input field for password with an id of "password", name of "auth-password" and type of "password".
-  - A submit button with a class of "btn-auth" with the text "login" or "register" depending on the current state of the component. If the user is trying to login, the button should say "login" and emit a "login" event with the username and password. If the user is trying to register, the button should say "register" and emit a "register" event with the username and password.
+      <button class="btn-auth" type="submit">{{ authButtonLabel }}</button>
+    </form>
+  </div>
+</template>
 
-  Once user is logged in or registered, the form should be hidden and the link should change to "Logout".
+<script setup>
+import { ref, computed, watch } from 'vue';
 
- -->
+const props = defineProps(['isLoggedIn']);
+const emit = defineEmits(['login', 'register', 'logout']);
+
+const isLoginFormVisible = ref(true);
+const isRegisterFormVisible = ref(false);
+const isAuthLinkVisible = ref(!props.isLoggedIn);
+const username = ref('');
+const password = ref('');
+
+const authLinkText = computed(() => (isLoginFormVisible.value ? 'Go to register' : 'Go to login'));
+const authButtonLabel = computed(() => (isLoginFormVisible.value ? 'Login' : 'Register'));
+
+const toggleAuthState = () => {
+  if (isLoginFormVisible.value) {
+    isLoginFormVisible.value = false;
+    isRegisterFormVisible.value = true;
+  } else {
+    isLoginFormVisible.value = true;
+    isRegisterFormVisible.value = false;
+  }
+};
+
+const submitForm = () => {
+  if (isLoginFormVisible.value) {
+    emit('login', { username: username.value, password: password.value });
+  } else {
+    emit('register', { username: username.value, password: password.value });
+  }
+
+  username.value = '';
+  password.value = '';
+};
+
+const logout = () => {
+  isAuthLinkVisible.value = true;
+  isLoginFormVisible.value = true;
+  isRegisterFormVisible.value = false;
+  emit('logout');
+};
+
+watch(() => props.isLoggedIn, (newLoginStatus) => {
+  if (newLoginStatus) {
+    isLoginFormVisible.value = false;
+    isRegisterFormVisible.value = false;
+    isAuthLinkVisible.value = false;
+  }
+});
+</script>

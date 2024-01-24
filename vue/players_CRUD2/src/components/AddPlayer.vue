@@ -1,4 +1,22 @@
-<!-- 
-  Copy paste your code from the ListPlayer.vue file here from the previous exercise. No changes are needed if you managed to get the component to work properly in the previous exercise.
- -->
+<template>
+  <h3>Add Player</h3>
+  <form id="submit-player" @submit.prevent="submitPlayer">
+    <input type="text" id="input-player" v-model="newPlayerName" placeholder="Enter player name" required />
+    <button type="submit" class="btn-add">Add Player</button>
+  </form>
+</template>
 
+<script setup>
+import { ref } from 'vue';
+
+const emits = defineEmits(['add-player']);
+
+const newPlayerName = ref("");
+
+const submitPlayer = () => {
+  if (newPlayerName.value.trim() !== "") {
+    emits("add-player", newPlayerName.value.trim());
+    newPlayerName.value = "";
+  }
+};
+</script>
