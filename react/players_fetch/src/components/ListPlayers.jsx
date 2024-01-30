@@ -13,8 +13,26 @@
  * BEWARE: some tests do not pass if you do not handle the case where the players prop is an empty array, or null.
  *
  */
-
+import React from "react";
 import { ListPlayer } from "./ListPlayer.jsx";
-export const ListPlayers = () => {
-  return <div></div>;
+
+export const ListPlayers = ({ players, getPlayer }) => {
+  const handlePlayerClicked = (playerId) => {
+    getPlayer(playerId);
+  };
+
+  return (
+    <div>
+      <h2>List of Players</h2>
+      <ul id="players-list">
+        {players.map((player) => (
+          <ListPlayer
+            key={player.id}
+            player={player}
+            onClick={handlePlayerClicked}
+          />
+        ))}
+      </ul>
+    </div>
+  );
 };

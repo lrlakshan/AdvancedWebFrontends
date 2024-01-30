@@ -17,13 +17,54 @@
 */
 
 const url = "http://localhost:3001/api/players";
+import React, { useState, useEffect } from "react";
 import { REQ_STATUS } from "../cypress/e2e/constants.js";
 import { ListPlayers } from "./components/ListPlayers.jsx";
 import { SelectedPlayer } from "./components/SelectedPlayer.jsx";
 import { RequestStatus } from "./components/RequestStatus.jsx";
 
 function App() {
-  return <div></div>;
+  const [players, setPlayers] = useState([]);
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [requestStatus, setRequestStatus] = useState(null);
+
+  const fetchAllPlayers = async () => {
+    try {
+      setRequestStatus(REQ_STATUS.loading);
+      const response = await fetch(url);
+      const data = await response.json();
+      setPlayers(data);
+      setRequestStatus(REQ_STATUS.success);
+    } catch (error) {
+      console.error(error);
+      setRequestStatus(REQ_STATUS.error);
+    }
+  };
+
+  const fetchOnePlayer = async (playerId) => {
+    try {
+      setRequestStatus(REQ_STATUS.loading);
+      const response = await fetch(url + "/" + playerId);
+      const data = await response.json();
+      setSelectedPlayer(data);
+      setRequestStatus(REQ_STATUS.success);
+    } catch (error) {
+      console.error(error);
+      setRequestStatus(REQ_STATUS.error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllPlayers();
+  }, []);
+
+  return (
+    <div>
+      <RequestStatus>{requestStatus}</RequestStatus>
+      <ListPlayers players={players} getPlayer={fetchOnePlayer} />
+      <SelectedPlayer player={selectedPlayer} />
+    </div>
+  );
 }
 
 export default App;

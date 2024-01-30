@@ -7,6 +7,21 @@
 
  * NOTE: use the same ids, classes and html elements as you did in Vue. Refer to tests in the __tests__ folder to pass the unit tests, and to the cypress/e2e folder for the end-to-end tests.
  */
-export const SelectedPlayer = () => {
-  return <div></div>;
+
+import React from "react";
+
+export const SelectedPlayer = ({ player }) => {
+  return (
+    <div>
+      {player && (
+        <div id="selected-player">
+          <h3>Selected Player</h3>
+          <div id="player-name">{player.name}</div>
+          <div id="player-status">
+            {player.isActive ? "active" : "inactive"}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
