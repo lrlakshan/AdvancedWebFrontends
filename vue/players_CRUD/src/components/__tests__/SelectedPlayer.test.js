@@ -28,6 +28,10 @@ describe("SelectedPlayer", () => {
 
     // Toggle the checkbox
     const checkbox = wrapper.find("#checkbox");
+    if (checkbox.wrapperElement?._modelValue !== undefined) {
+      // student is using v-model
+      checkbox.element.checked = !checkbox.element.checked;
+    }
     checkbox.trigger("change");
     await wrapper.vm.$nextTick();
     expect(wrapper.find("#player-status").text()).toBe("inactive");
@@ -52,6 +56,10 @@ describe("SelectedPlayer", () => {
   test('emits a "put-player" event with the updated player active state when the update button is clicked', async () => {
     // Toggle the checkbox
     const checkbox = wrapper.find("#checkbox");
+    if (checkbox.wrapperElement?._modelValue !== undefined) {
+      // student is using v-model
+      checkbox.element.checked = !checkbox.element.checked;
+    }
     checkbox.trigger("change");
 
     const changedPlayerState = !player.isActive;
@@ -68,8 +76,16 @@ describe("SelectedPlayer", () => {
   test("should not call handleUpdate if checkbox is clicked twice (aka player state is not changed)", async () => {
     // Toggle the checkbox
     const checkbox = wrapper.find("#checkbox");
+    if (checkbox.wrapperElement?._modelValue !== undefined) {
+      // student is using v-model
+      checkbox.element.checked = !checkbox.element.checked;
+    }
     checkbox.trigger("change");
     await wrapper.vm.$nextTick();
+    if (checkbox.wrapperElement?._modelValue !== undefined) {
+      // student is using v-model
+      checkbox.element.checked = !checkbox.element.checked;
+    }
     checkbox.trigger("change");
     await wrapper.vm.$nextTick();
     // Click the update button
