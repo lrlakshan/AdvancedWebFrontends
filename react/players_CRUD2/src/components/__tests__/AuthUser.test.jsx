@@ -132,10 +132,10 @@ describe("submit", () => {
       "link text not found"
     ).toBe(true);
     userEvent.click(link);
-    await waitFor(
-      async () => await screen.findByRole("heading", { name: /register/i })
-    );
-
+    await screen.findByRole("link", { name: /login/i });
+    expect(
+      link.textContent.trim().toLowerCase().includes("login")
+    ).toBeTruthy();
     const username = container.querySelector("#username");
     expect(username, "username not found").toBeTruthy();
     const password = container.querySelector("#password");

@@ -10,6 +10,12 @@ import {
 
 import { REQ_STATUS } from "../constants";
 
+//  const REQ_STATUS: {
+//     loading: string;
+//     success: string;
+//     error: string;
+// }
+
 describe("Requests: DELETE", () => {
   const playerIndex = 1;
   const playerUrl = `**/api/players/${players[playerIndex].id}`;
