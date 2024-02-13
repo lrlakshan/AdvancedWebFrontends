@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="15" failures="0" errors="0" time="8.53">
+    <testsuite name="components/__tests__/AddPlayer.test.jsx" timestamp="2024-01-31T18:57:07.047Z" hostname="Lakshans-MacBook-Pro.local" tests="2" failures="0" errors="0" skipped="0" time="1.684">
+        <testcase classname="components/__tests__/AddPlayer.test.jsx" name="AddPlayer &gt; calls the handesubmit function with the input value when the form is submitted" time="1.292">
+        </testcase>
+        <testcase classname="components/__tests__/AddPlayer.test.jsx" name="AddPlayer &gt; clears the input when the form is submitted" time="0.388">
+        </testcase>
+    </testsuite>
+    <testsuite name="components/__tests__/ListPlayer.test.jsx" timestamp="2024-01-31T18:57:07.057Z" hostname="Lakshans-MacBook-Pro.local" tests="4" failures="0" errors="0" skipped="0" time="2.019">
+        <testcase classname="components/__tests__/ListPlayer.test.jsx" name="ListPlayer &gt; renders a list item with the player&apos;s id as its id" time="0.928">
+        </testcase>
+        <testcase classname="components/__tests__/ListPlayer.test.jsx" name="ListPlayer &gt; displays the player name inside the anchor element" time="0.462">
+        </testcase>
+        <testcase classname="components/__tests__/ListPlayer.test.jsx" name="ListPlayer &gt; calls the onClick prop with the player id when the link is clicked" time="0.346">
+        </testcase>
+        <testcase classname="components/__tests__/ListPlayer.test.jsx" name="ListPlayer &gt; anchor should be focusable via the keyboard (by pressing the tab key)" time="0.272">
+        </testcase>
+    </testsuite>
+    <testsuite name="components/__tests__/ListPlayers.test.jsx" timestamp="2024-01-31T18:57:07.070Z" hostname="Lakshans-MacBook-Pro.local" tests="2" failures="0" errors="0" skipped="0" time="1.607">
+        <testcase classname="components/__tests__/ListPlayers.test.jsx" name="ListPlayers &gt; renders a list with id &quot;players-list&quot;" time="1.094">
+        </testcase>
+        <testcase classname="components/__tests__/ListPlayers.test.jsx" name="ListPlayers &gt; renders a ListPlayer for each player in the players prop" time="0.507">
+        </testcase>
+    </testsuite>
+    <testsuite name="components/__tests__/RequestStatus.test.jsx" timestamp="2024-01-31T18:57:07.079Z" hostname="Lakshans-MacBook-Pro.local" tests="2" failures="0" errors="0" skipped="0" time="0.114">
+        <testcase classname="components/__tests__/RequestStatus.test.jsx" name="RequestStatus component &gt; should render the component, inside which is an element with id &apos;request-status&apos;" time="0.074">
+        </testcase>
+        <testcase classname="components/__tests__/RequestStatus.test.jsx" name="RequestStatus component &gt; should render the component with the correct status" time="0.036">
+        </testcase>
+    </testsuite>
+    <testsuite name="components/__tests__/SelectedPlayer.test.jsx" timestamp="2024-01-31T18:57:07.080Z" hostname="Lakshans-MacBook-Pro.local" tests="5" failures="0" errors="0" skipped="0" time="3.14">
+        <testcase classname="components/__tests__/SelectedPlayer.test.jsx" name="SelectedPlayer &gt; displays the selected player information when a player is passed as a prop with correct ui" time="0.3">
+        </testcase>
+        <testcase classname="components/__tests__/SelectedPlayer.test.jsx" name="SelectedPlayer &gt; should not render if selected player is null" time="0.361">
+        </testcase>
+        <testcase classname="components/__tests__/SelectedPlayer.test.jsx" name="SelectedPlayer &gt; calls the handleDelete function with the player id when the delete button is clicked" time="0.192">
+        </testcase>
+        <testcase classname="components/__tests__/SelectedPlayer.test.jsx" name="SelectedPlayer &gt; calls the handleUpdate function with the updated player active state when the update button is clicked" time="0.17">
+        </testcase>
+        <testcase classname="components/__tests__/SelectedPlayer.test.jsx" name="SelectedPlayer &gt; should not call handleUpdate if checkbox is clicked twice (aka player state is not changed)" time="2.111">
+        </testcase>
+    </testsuite>
+</testsuites>

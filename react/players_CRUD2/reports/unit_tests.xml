@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="6" failures="0" errors="0" time="19.86">
+    <testsuite name="components/__tests__/AuthUser.test.jsx" timestamp="2024-02-04T21:03:08.017Z" hostname="Lakshans-MacBook-Pro.local" tests="6" failures="0" errors="0" skipped="0" time="0.609">
+        <testcase classname="components/__tests__/AuthUser.test.jsx" name="AuthUser component &gt; Link text is &quot;Logout&quot;, when isLoggedIn is true" time="0.058">
+        </testcase>
+        <testcase classname="components/__tests__/AuthUser.test.jsx" name="AuthUser component &gt;  &quot;Go to register&quot; by default in link, &quot;login&quot; by default in button" time="0.049">
+        </testcase>
+        <testcase classname="components/__tests__/AuthUser.test.jsx" name="AuthUser component &gt; Text is &quot;Go to login&quot; when isLoggedIn is false and Link is clicked once, &quot;register&quot; in button" time="0.314">
+        </testcase>
+        <testcase classname="components/__tests__/AuthUser.test.jsx" name="Logout: Called functions &gt; handleLogout is called when isLoggedIn is true and the logout link is clicked" time="0.023">
+        </testcase>
+        <testcase classname="components/__tests__/AuthUser.test.jsx" name="submit &gt; onLogin is called with username and password when isLogin is true" time="0.025">
+        </testcase>
+        <testcase classname="components/__tests__/AuthUser.test.jsx" name="submit &gt; onRegister is called with username and password when isLogin is false" time="0.139">
+        </testcase>
+    </testsuite>
+</testsuites>
