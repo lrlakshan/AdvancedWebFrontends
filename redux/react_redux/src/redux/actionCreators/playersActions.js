@@ -9,4 +9,7 @@ import { SET_PLAYERS } from '../constants';
  * @param {Array} players - The players ids and names in an array.
  * @return {Object} action
  */
-export const setPlayers = (players) => ({});
+export const setPlayers = (players) => ({
+    type: SET_PLAYERS,
+    payload: players
+});

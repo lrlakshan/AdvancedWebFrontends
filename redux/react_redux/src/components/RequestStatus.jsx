@@ -8,10 +8,14 @@ import { useSelector } from "react-redux";
  * BEWARE: No props are passed to this component from now on. Instead, all the data is fetched and updated in the redux store.
  */
 export const RequestStatus = () => {
+  const requestStatus = useSelector(state => state.status);
+
   return (
     <div>
       <h3>Request status</h3>
-      TODO: RequestStatus
+      <div id="request-status">
+        <div>{requestStatus}</div>
+      </div>
     </div>
   );
 };

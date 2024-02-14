@@ -8,17 +8,56 @@
   Hint: Use the provided REQ_STATUS object to update the request status when necessary. "loading" for when the request is in progress, "success" for when the request is successful, and "error" for when the request has failed. The REQ_STATUS object is imported from the "../cypress/e2e/constants.js" file.
 
 */
-
+const url = "http://localhost:3001/api/players";
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { ListPlayers } from "./components/ListPlayers.jsx";
 import { SelectedPlayer } from "./components/SelectedPlayer.jsx";
 import { RequestStatus } from "./components/RequestStatus.jsx";
 import { REQ_STATUS } from "../cypress/e2e/constants.js";
 
+// Actions
+import { setPlayers } from './redux/actionCreators/playersActions.js';
+import { setStatus } from './redux/actionCreators/statusActions.js';
+import { setSelectedPlayer } from './redux/actionCreators/selectedPlayerActions.js';
+
 function App() {
+
+  const fetchOnePlayer = async (playerId) => {
+    try {
+      dispatch(setStatus(REQ_STATUS.loading));
+      const response = await fetch(url + "/" + playerId);
+      const data = await response.json();
+      dispatch(setSelectedPlayer(data));
+      dispatch(setStatus(REQ_STATUS.success));
+    } catch (error) {
+      console.error(error);
+      dispatch(setStatus(REQ_STATUS.error));
+    }
+  };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchAllPlayers = async () => {
+      try {
+        dispatch(setStatus(REQ_STATUS.loading));
+        const response = await fetch(url);
+        const data = await response.json();
+        dispatch(setPlayers(data));
+        dispatch(setStatus(REQ_STATUS.success));
+      } catch (error) {
+        console.error(error);
+        dispatch(setStatus(REQ_STATUS.error));
+      }
+    };
+
+    fetchAllPlayers();
+  }, [dispatch]);
   return (
     <>
       <RequestStatus />
-      <ListPlayers />
+      <ListPlayers selectPlayer={fetchOnePlayer}/>
       <SelectedPlayer />
     </>
   );
