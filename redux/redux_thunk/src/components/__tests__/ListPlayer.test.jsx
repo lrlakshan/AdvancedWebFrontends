@@ -23,7 +23,7 @@ describe("ListPlayer", () => {
     // Render the component
     component = render(
       <Provider store={emptyStore}>
-        <ListPlayer {...player} />
+        <ListPlayer player={player} />
       </Provider>
     );
   });

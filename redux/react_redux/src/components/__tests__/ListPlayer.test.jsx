@@ -18,7 +18,7 @@ describe("ListPlayer", () => {
     // Render the component
     component = render(
       <Provider store={mockStore({})}>
-        <ListPlayer {...player} onClick={clickHandler} />
+        <ListPlayer player={player} onClick={clickHandler} />
       </Provider>
     );
   });

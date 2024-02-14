@@ -40,7 +40,10 @@ export const handlers = [
 
   http.post("**/api/players", async ({ params, request }) => {
     const newPlayerDetails = await request.json();
-    return HttpResponse.json({ ...newPlayerDetails, id: players.length + 1 });
+    return HttpResponse.json(
+      { ...newPlayerDetails, id: players.length + 1 },
+      { status: 201 }
+    );
   }),
 
   http.put("**/api/players/:playerId", async ({ params, request }) => {

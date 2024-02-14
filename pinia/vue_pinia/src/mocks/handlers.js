@@ -8,9 +8,6 @@ export const handlers = [
     return HttpResponse.json(
       players.map((player) => ({ id: player.id, name: player.name }))
     );
-    // return res(
-    //   ctx.json(players.map((player) => ({ id: player.id, name: player.name })))
-    // );
   }),
 
   http.get("**/api/players/:playerId", ({ params, request }) => {
@@ -41,11 +38,14 @@ export const handlers = [
   http.post("**/api/players", async ({ params, request }) => {
     const newPlayerDetails = await request.json();
     // console.log("NEW PLAYER DETAILS", newPlayerDetails);
-    return HttpResponse.json({
-      ...newPlayerDetails,
-      id: players.length + 1,
-      isActive: false,
-    });
+    return HttpResponse.json(
+      {
+        ...newPlayerDetails,
+        id: players.length + 1,
+        isActive: false,
+      },
+      { status: 201 }
+    );
   }),
 
   http.put("**/api/players/:playerId", async ({ params, request }) => {

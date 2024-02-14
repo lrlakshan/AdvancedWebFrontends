@@ -9,6 +9,6 @@
  *
  */
 
-export const ListPlayer = ({ name, id, onClick }) => {
+export const ListPlayer = ({ player, onClick }) => {
   return "TODO: ListPlayer";
 };
