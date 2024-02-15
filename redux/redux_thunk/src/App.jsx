@@ -9,12 +9,24 @@
  * You can however copy paste the App.jsx file from the previous exercises into this file so that you may start off with a working app.
  */
 
-import { RequestStatus } from "./components/RequestStatus.jsx";
-import { AddPlayer } from "./components/AddPlayer.jsx";
+const url = "http://localhost:3001/api/players";
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { ListPlayers } from "./components/ListPlayers.jsx";
 import { SelectedPlayer } from "./components/SelectedPlayer.jsx";
+import { RequestStatus } from "./components/RequestStatus.jsx";
+import { AddPlayer } from "./components/AddPlayer.jsx";
+
+import { getPlayers } from './redux/actionCreators/thunks/ListPlayers.js';
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPlayers());
+  }, [dispatch]);
+
   return (
     <>
       <RequestStatus />

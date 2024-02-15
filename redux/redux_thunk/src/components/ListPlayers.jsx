@@ -6,12 +6,23 @@
  * Here are the thunks that you can use to update the redux store:
  * - getPlayers, found in src\redux\actionCreators\thunks\ListPlayers.jsx
  */
+import { useSelector } from "react-redux";
+import { ListPlayer } from "./ListPlayer";
 
 export const ListPlayers = () => {
-	return (
-		<div>
-			<h2>List of players</h2>
-			TODO: ListPlayers
-		</div>
-	);
+  const players = useSelector((state) => state.players);
+
+  return (
+    <div>
+      <h2>List of players</h2>
+      <ul id="players-list">
+        {players.map((player) => (
+          <ListPlayer
+            key={player.id}
+            player={player}
+          />
+        ))}
+      </ul>
+    </div>
+  );
 };

@@ -1,6 +1,7 @@
 /** @format REDUCERS*/
 
-import { SET_STATUS } from "../constants";
+import { SET_REQUEST_STATUS } from "../constants";
+import { REQ_STATUS } from "../../../cypress/e2e/constants";
 
 /**
  * @description reducer for status that returns the status of the request. The default state is REQ_STATUS.loading. The action type is SET_STATUS.
@@ -10,11 +11,13 @@ import { SET_STATUS } from "../constants";
  * @param {*} action  - The action to be performed.
  * @returns  {String} - The status of the request
  */
-const statusReducer = (state, action) => {
-  switch (null) {
+const statusReducer = (state = REQ_STATUS.loading, action) => {
+  switch (action.type) {
+    case SET_REQUEST_STATUS:
+        return action.payload;
     default:
-      return state;
-  }
+        return state;
+}
 };
 
 export default statusReducer;

@@ -8,12 +8,41 @@
  * Here are the thunks that you can use to update the redux store:
  * - postPlayer, found in src\redux\actionCreators\thunks\AddPlayer.jsx
  */
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { postPlayer } from "../redux/actionCreators/thunks/AddPlayer";
 
 export const AddPlayer = () => {
-	return (
-		<div>
-			<h2>Add player</h2>
-			TODO: AddPlayer
-		</div>
-	);
+
+  const dispatch = useDispatch();
+  const [newPlayerName, setNewPlayerName] = useState("");
+
+  const submitPlayer = (e) => {
+    e.preventDefault();
+    const newPlayer = {
+      name: newPlayerName,
+      isActive: false,
+    };
+    dispatch(postPlayer(newPlayer));
+    setNewPlayerName("");
+  };
+
+  return (
+    <div>
+      <h3>Add Player</h3>
+      <form id="submit-player" onSubmit={submitPlayer}>
+        <input
+          type="text"
+          id="input-player"
+          value={newPlayerName}
+          onChange={(e) => setNewPlayerName(e.target.value)}
+          placeholder="Enter player name"
+          required
+        />
+        <button type="submit" className="btn-add">
+          Add Player
+        </button>
+      </form>
+    </div>
+  );
 };

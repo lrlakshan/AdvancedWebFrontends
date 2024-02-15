@@ -1,4 +1,9 @@
 /** @format THUNK*/
+const url = "http://localhost:3001";
+import { setStatus } from "../statusActions";
+import { removePlayer, updatePlayer } from "../playersActions";
+import { clearSelectedPlayer } from "../selectedPlayerActions";
+import { REQ_STATUS } from "../../../../cypress/e2e/constants"
 
 /**
  * @description thunk for deleting the selected player.
@@ -15,7 +20,28 @@
  *
  * Hint: You have to get the required details of the selected player from the store.
  */
-export const deleteSelectedPlayer = () => {};
+export const deleteSelectedPlayer = () => {
+    return async (dispatch, getState) => {
+      dispatch(setStatus(REQ_STATUS.loading));
+  
+      try {
+        const selectedPlayerId = getState().selectedPlayer.id;
+        const response = await fetch(url + `/api/players/${selectedPlayerId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        dispatch(setStatus(REQ_STATUS.success));
+        dispatch(removePlayer(selectedPlayerId));
+        dispatch(clearSelectedPlayer());
+      } catch (error) {
+        console.error(error);
+        dispatch(setStatus(REQ_STATUS.error));
+      }
+    };
+  };
 
 /**
  * @description thunk for updating the selected player.
@@ -38,4 +64,26 @@ export const deleteSelectedPlayer = () => {};
  * Hint: You have to get required details of the selected player from the store.
  *
  */
-export const updateSelectedPlayer = (updatedActivity) => {};
+export const updateSelectedPlayer = (updatedActivity) => {
+    return async (dispatch, getState) => {
+      dispatch(setStatus(REQ_STATUS.loading));
+  
+      try {
+        const selectedPlayer = getState().selectedPlayer;
+        const response = await fetch(url + `/api/players/${selectedPlayer.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ isActive: updatedActivity }),
+        });
+
+        dispatch(setStatus(REQ_STATUS.success));
+        dispatch(updatePlayer({ ...selectedPlayer, isActive: updatedActivity }));
+        dispatch(clearSelectedPlayer());
+      } catch (error) {
+        console.error(error);
+        dispatch(setStatus(REQ_STATUS.error));
+      }
+    };
+  };
