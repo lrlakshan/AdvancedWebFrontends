@@ -35,6 +35,63 @@
  All interactions with the player data should be managed via the Pinia store, promoting efficient and centralized state management.
 -->
 
-<template></template>
+<template>
+   <div>
+      <h3 v-if="selectedPlayer">Selected Player</h3>
+      <h3 v-else>No Player Selected</h3>
+      <div v-if="selectedPlayer" id="selected-player">
+         <div class="player-id">{{ selectedPlayer.id }}</div>
+         <div id="player-name">{{ selectedPlayer.name }}</div>
+         <div id="player-status">
+            <label for="checkbox" id="checkbox-label">
+               <input type="checkbox" id="checkbox" :checked="playerCurrentStatus" @change="handleCheckboxChange" />
+               <span class="checkmark"></span>
+               {{ playerCurrentStatus ? 'active' : 'inactive' }}
+            </label>
+         </div>
+         <div>
+            <button class="btn-update" :disabled="playerCurrentStatus === selectedPlayer.isActive" @click="updatePlayer">
+               Update
+            </button>
+            <button class="btn-delete" @click="deletePlayer">
+               Delete
+            </button>
+         </div>
+      </div>
+   </div>
+</template>
+ 
+<script>
+import { ref, watch, computed } from 'vue';
+import { usePlayerStore } from '../pinia/playerStore';
 
-<script></script>
+export default {
+   setup() {
+      const playerStore = usePlayerStore();
+
+      const selectedPlayer = computed(() => playerStore.getSelectedPlayer);
+
+      const playerCurrentStatus = ref(selectedPlayer.value?.isActive);
+
+      const handleCheckboxChange = () => {
+         playerCurrentStatus.value = !playerCurrentStatus.value;
+      };
+
+      const updatePlayer = () => {
+         playerStore.updatePlayer(selectedPlayer.value, playerCurrentStatus.value);
+      };
+
+      const deletePlayer = () => {
+         playerStore.deletePlayer(selectedPlayer.value.id);
+      };
+
+      watch(selectedPlayer, (newPlayer) => {
+         playerCurrentStatus.value = newPlayer?.isActive;
+      });
+
+      return { handleCheckboxChange, updatePlayer, deletePlayer, selectedPlayer, playerCurrentStatus };
+   }
+};
+</script>
+ 
+ 

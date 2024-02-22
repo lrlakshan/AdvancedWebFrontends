@@ -21,4 +21,97 @@ export const usePlayerStore = defineStore("playerStore", {
     reqStatus: REQ_STATUS.loading,
     playersURL: "http://localhost:3001/api/players",
   }),
+  actions: {
+    async fetchSelectedPlayer(playerId) {
+      try {
+        this.reqStatus = REQ_STATUS.loading;
+        const response = await fetch(`${this.playersURL}/${playerId}`);
+        const data = await response.json();
+        this.selectedPlayer = data;
+        this.reqStatus = REQ_STATUS.success;
+      } catch (error) {
+        console.error(error);
+        this.reqStatus = REQ_STATUS.error;
+      }
+    },
+    async fetchPlayers() {
+      try {
+        this.reqStatus = REQ_STATUS.loading;
+        const response = await fetch(this.playersURL);
+        const data = await response.json();
+        this.players = data;
+        this.reqStatus = REQ_STATUS.success;
+      } catch (error) {
+        console.error(error);
+        this.reqStatus = REQ_STATUS.error;
+      }
+    },
+    async addPlayer(player) {
+      try {
+        this.reqStatus = REQ_STATUS.loading;
+        const response = await fetch(this.playersURL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(player),
+        });
+        const data = await response.json();
+        this.players.push(data);
+        this.reqStatus = REQ_STATUS.success;
+      } catch (error) {
+        console.error(error);
+        this.reqStatus = REQ_STATUS.error;
+      }
+    },
+    async updatePlayer(player, isActive) {
+      try {
+        this.reqStatus = REQ_STATUS.loading;
+        const response = await fetch(`${this.playersURL}/${player.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ isActive }),
+        });
+        const data = await response.json();
+        this.selectedPlayer = data;
+        const index = this.players.findIndex(p => p.id === player.id);
+        if (index !== -1) {
+          this.players[index] = data;
+        }
+        this.reqStatus = REQ_STATUS.success;
+      } catch (error) {
+        console.error(error);
+        this.reqStatus = REQ_STATUS.error;
+      }
+    },
+    async deletePlayer(id) {
+      try {
+        this.reqStatus = REQ_STATUS.loading;
+        this.selectedPlayer = null;
+        const response = await fetch(`${this.playersURL}/${id}`, {
+          method: "DELETE",
+        });
+        if (response.ok) {
+          this.players = this.players.filter((player) => player.id !== id);
+          this.reqStatus = REQ_STATUS.success;
+        }
+      } catch (error) {
+        console.error(error);
+        this.reqStatus = REQ_STATUS.error;
+      }
+    },
+  },
+  getters: {
+    allPlayers() {
+      return this.players;
+    },
+    getSelectedPlayer() {
+      return this.selectedPlayer;
+    },
+    getRequestStatus() {
+      return this.reqStatus;
+    },
+  },
 });

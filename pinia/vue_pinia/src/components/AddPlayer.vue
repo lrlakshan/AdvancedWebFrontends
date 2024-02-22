@@ -21,6 +21,35 @@ Student instructions:
 
  -->
 
-<template></template>
+<template>
+  <h3>Add Player</h3>
+  <form id="submit-player" @submit.prevent="submitPlayer">
+    <input type="text" id="input-player" v-model="newPlayerName" placeholder="Enter player name" required />
+    <button type="submit" class="btn-add">Add Player</button>
+  </form>
+</template>
+  
+<script>
+import { ref } from 'vue';
+import { usePlayerStore } from '../pinia/playerStore';
 
-<script></script>
+export default {
+  setup() {
+    const playerStore = usePlayerStore();
+    const newPlayerName = ref('');
+
+    const submitPlayer = () => {
+      if (newPlayerName.value.trim() !== '') {
+        playerStore.addPlayer({ name: newPlayerName.value, isActive: false });
+        newPlayerName.value = '';
+      }
+    };
+
+    return {
+      newPlayerName,
+      submitPlayer
+    };
+  }
+};
+</script>
+  

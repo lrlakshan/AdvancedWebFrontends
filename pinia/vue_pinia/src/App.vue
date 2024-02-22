@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import { onMounted } from 'vue';
+import { usePlayerStore } from "./pinia/playerStore"
 import AddPlayer from "./components/AddPlayer.vue";
 import ListPlayers from "./components/ListPlayers.vue";
 import ListPlayer from "./components/ListPlayer.vue";
@@ -37,6 +39,14 @@ export default {
     SelectedPlayer,
     RequestStatus,
     AppTitle,
+  },
+  setup() {
+    const playerStore = usePlayerStore();
+
+    onMounted(() => {
+      playerStore.fetchPlayers();
+    });
+    return {};
   },
 };
 </script>

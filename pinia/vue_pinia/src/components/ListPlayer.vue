@@ -5,9 +5,22 @@
 -->
 
 <template>
-
+  <li v-if="player" :id="'player-' + player.id">
+    <a @click="handlePlayerClick" @keydown.enter.prevent="handlePlayerClick" style="cursor: pointer;" tabindex="0">
+      {{ player.name }}
+    </a>
+  </li>
 </template>
 
-<script>
+<script setup>
+import { defineProps } from 'vue';
+import { usePlayerStore } from '../pinia/playerStore';
 
+const props = defineProps(['player']);
+
+const playerStore = usePlayerStore();
+
+const handlePlayerClick = () => {
+  playerStore.fetchSelectedPlayer(props.player.id);
+};
 </script>
