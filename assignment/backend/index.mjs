@@ -38,7 +38,7 @@ process.on('uncaughtException', err => {
  * Get port from environment and store in Express.
  */
 
-const serverListenPort = normalizePort(process.env.PORT ?? '3000');
+const serverListenPort = normalizePort(process.env.PORT ?? 3001);
 app.set('port', serverListenPort);
 
 /**
@@ -107,4 +107,5 @@ function onListening () {
   const addr = server.address();
   const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
   log(`Listening on ${bind}`);
+  log(`API documentation can be found in: http://localhost:${addr.port}/`)
 }

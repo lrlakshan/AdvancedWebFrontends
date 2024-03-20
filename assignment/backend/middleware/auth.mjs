@@ -89,14 +89,16 @@ export const requireCustomer = (req, res, next) => {
 
 export const requireNotAuthenticated = (req, res, next) => {
   if (req.user) {
-    res.status(403).json({ error: 'Only for guests' });
+    log(`${req.originalUrl} is only for quests. Current role: '${req.user.role}'`);
+    return res.status(403).json({ error: 'Only for guests' });
   }
   next();
 };
 
 export const requireNotSelf = (req, res, next) => {
   if (req.user && req.params.id && req.user.id === req.params.id) {
-    res.status(400).json({ error: 'Modifying own data is not allowed' });
+    log("Modifying user's own data is not allowed");
+    return res.status(400).json({ error: 'Modifying own data is not allowed' });
   }
   next();
 };

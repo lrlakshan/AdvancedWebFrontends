@@ -6,65 +6,92 @@
     "node": true
   },
   "extends": [
-    "react-app",
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-perf/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
   "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module"
-  },
-  "noInlineConfig": true,
-  "overrides": [
-    {
-      "files": [
-        "*.js",
-        "*.jsx"
-      ]
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
     }
+  },
+  "plugins": [
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "react-perf"
   ],
   "rules": {
-    "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error",
-    "react/no-direct-mutation-state": "error",
-    "react/no-unescaped-entities": "error",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
     "semi": [
-      "error",
+      "off",
       "always"
     ],
-    "quotes": "off",
-    "no-dupe-else-if": [
-      "error"
-    ],
-    "eqeqeq": [
-      "error",
+    "quotes": [
+      "off",
       "always"
     ],
-    "no-implicit-globals": "error",
-    "no-redeclare": "error",
-    "no-promise-executor-return": "error",
-    "no-undef": "off",
-    "no-unused-vars": "off",
-    "camelcase": "error",
-    "arrow-spacing": "warn",
-    "no-var": "error",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "no-console": "off",
+    "react/jsx-key": "error",
+    "react/no-array-index-key": "error",
+    "react/jsx-no-duplicate-props": "error",
+    "react-perf/jsx-no-new-function-as-prop": "error",
+    "react-perf/jsx-no-new-array-as-prop": "error",
+    "react-perf/jsx-no-new-object-as-prop": "error",
+    "react/no-unescaped-entities": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react/jsx-pascal-case": "error",
     "prefer-const": "error",
-    "no-unreachable": "error",
-    "complexity": [
-      "warn",
-      10
+    "camelcase": [
+      "error",
+      {
+        "allow": [
+          "legacy_createStore"
+        ]
+      }
     ],
-    "no-invalid-this": "warn",
-    "no-multi-spaces": "warn",
-    "no-self-assign": "warn",
-    "require-await": "warn",
-    "no-shadow": "warn",
-    "comma-spacing": "warn",
-    "max-lines-per-function": "warn",
-    "prefer-object-spread": "warn",
-    "prefer-template": "warn"
+    "no-var": "error",
+    "react/jsx-props-no-spreading": "warn",
+    "react/button-has-type": "warn",
+    "react/self-closing-comp": "warn",
+    "react/jsx-fragments": "warn",
+    "react/jsx-no-useless-fragment": "warn",
+    "react/no-unused-state": "warn",
+    "react-hooks/exhaustive-deps": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "no-unused-vars": "warn",
+    "max-lines-per-function": [
+      "error",
+      {
+        "max": 100,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

@@ -1,4 +1,4 @@
-# Assignment Backend for Advanced Web Front-ends (Spring 2022)
+# Assignment Backend for Advanced Web Front-ends (Spring 2024)
 
 This repository contains the backend for the student assignment of Advanced Web
 Front-ends course. The backend uses JSON file as its database instead of MongoDb
@@ -29,27 +29,27 @@ npm run reset-db
 Database is saved to ``db/db.json`` and it can be reset again with the above command.
 If you want to start with empty database just delete the file ``db/db.json``
 
+
+
 ## Running server
 
 ```
 npm start
 ```
 
-Server listens on port _3000_. You can define a different port inside ``nodemon.json``
+Server listens on port _3001_. You can define a different port inside ``nodemon.json``
 file.
 
 ## API documentation
 
-API documentation can can be viewed in the address http://localhost:3000/docs/
+API documentation can be viewed in the address http://localhost:3001/
 
-The documentation can be found in the file ``public/docs/index.html``
+The documentation can also be found in the file ``public/index.html``
 
-Server uses JWT tokens for user authentication and expects the token to be
-delivered inside the ``Authorization`` request header.
+Server uses cookies and JWT tokens for user authentication and expects the token
+to be delivered inside a cookie.
 
-``Authorization: Bearer <token>``
-
-A token can be received via login at http://localhost:3000/api/login (See API documentation)
+A token can be received via login at http://localhost:3001/api/login (See API documentation)
 
 ## Tests
 
@@ -62,44 +62,51 @@ npm test
 ## Project file hierarchy
 
 ```
+````
 .
-├── README.md
-├── app.mjs
 ├── controllers
 │   ├── order.mjs
 │   ├── product.mjs
 │   └── user.mjs
 ├── db
-│   ├── db.mjs
 │   ├── reset
 │   │   ├── products.json
 │   │   └── users.json
+│   ├── db.mjs
 │   └── reset-db.mjs
-├── index.mjs
 ├── middleware
 │   ├── auth.mjs
 │   └── requireJson.mjs
 ├── models
-│   ├── base.mjs
-│   ├── order.mjs
-│   ├── product.mjs
 │   ├── schemas
 │   │   ├── id.mjs
 │   │   ├── order.mjs
 │   │   ├── product.mjs
 │   │   └── user.mjs
+│   ├── base.mjs
+│   ├── order.mjs
+│   ├── product.mjs
 │   └── user.mjs
-├── nodemon.json
-├── package-lock.json
-├── package.json
 ├── public
-│   └── docs
-│       └── index.html
-├── router.mjs
+│   └── index.html
 ├── routes
 │   └── api.mjs
-└── test
-    ├── fixtures.mjs
-    ├── hooks.mjs
-    └── routes.test.mjs
-````
+├── test
+│   ├── fixtures.mjs
+│   ├── hooks.mjs
+│   └── routes.test.mjs
+├── app.mjs
+├── .eslintignore
+├── .eslintrc.json
+├── .gitattributes
+├── .gitignore
+├── index.mjs
+├── .mocharc.json
+├── nodemon.json
+├── package.json
+├── package-lock.json
+├── .prettierignore
+├── .prettierrc
+├── README.md
+└── router.mjs
+

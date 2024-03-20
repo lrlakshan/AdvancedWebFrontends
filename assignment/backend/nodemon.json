@@ -9,5 +9,8 @@
     "PORT": 3001
   },
   "ext": "js,json,mjs",
-  "delay": 1500
+  "delay": 1500,
+  "events": {
+    "start": "cls || clear"
+  }
 }

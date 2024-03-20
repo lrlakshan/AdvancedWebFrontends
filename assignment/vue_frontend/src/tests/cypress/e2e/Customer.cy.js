@@ -42,7 +42,7 @@ describe("END-TO-END - CUSTOMER", () => {
     cy.visit("/");
   });
 
-  describe.skip("Navigation and Other UI Elements", () => {
+  describe("Navigation and Other UI Elements", () => {
     it("Navigation is shown correctly after successful customer login", () => {
       login(credentials.customer);
       testNavigationIsFor("customer");
@@ -68,7 +68,7 @@ describe("END-TO-END - CUSTOMER", () => {
     });
   });
 
-  describe.skip("Shopping cart/Products", () => {
+  describe("Shopping cart/Products", () => {
     let productsElement;
     let products;
     beforeEach(() => {
@@ -113,7 +113,7 @@ describe("END-TO-END - CUSTOMER", () => {
       cartElement.checkChildCount("list-item", 1);
     });
 
-    describe.skip("Controlling cart items", () => {
+    describe("Controlling cart items", () => {
       let productElement;
       let cartElement;
       let cartItemElement;
@@ -189,7 +189,7 @@ describe("END-TO-END - CUSTOMER", () => {
       // Expect to see login component
       getElement(containerId.form).exists();
     });
-    describe.skip("Has no orders", () => {
+    describe("Has no orders", () => {
       let noOrdersCustomer;
       let ordersElement;
       beforeEach(() => {

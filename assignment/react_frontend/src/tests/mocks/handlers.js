@@ -117,7 +117,9 @@ const cookie = (user, expires) => {
     `;
 };
 
-const checkStatus = ({ cookies }) => {
+const checkStatus = async ({ cookies }) => {
+  await delay();
+
   const user = getUserFromCookie(cookies);
   const userJSON = JSON.stringify({ user });
   return new HttpResponse(userJSON, {

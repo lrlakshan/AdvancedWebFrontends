@@ -21,6 +21,7 @@ const respondWithErrorMessages = (req, res, err) => {
 
   const error = err.details.reduce((messages, d) => {
     messages[d.path] = d.message;
+    log('%O', messages);
     return messages;
   }, {});
 

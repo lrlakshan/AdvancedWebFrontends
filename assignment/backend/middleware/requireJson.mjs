@@ -5,7 +5,7 @@ import debug from 'debug';
 const log = debug('assignment-backend:json-middleware');
 
 const requireJson = (req, res, next) => {
-  if (!req.get('Accept') || !req.get('Accept').includes('json')) {
+  if (!req.accepts('json')) {
     log('Accept header is missing or client does not accept JSON');
     return res.sendStatus(406);
   }
