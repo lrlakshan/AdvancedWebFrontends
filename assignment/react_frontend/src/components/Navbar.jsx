@@ -4,8 +4,8 @@ import { dataTestIds } from '../tests/constants/components';
 
 const Navbar = ({ role, logout }) => {
 
-  const { linkId } = dataTestIds;
-  
+  const { linkId, clickId, containerId } = dataTestIds;
+
   const renderLinks = () => {
     switch (role) {
       case 'Guest':
@@ -23,21 +23,21 @@ const Navbar = ({ role, logout }) => {
       case 'Customer':
         return (
           <>
-            <Link to="/" data-testid="home-link">Home</Link>
-            <Link to="/products" data-testid="products-link">Products</Link>
-            <Link to="/orders" data-testid="orders-link">Orders</Link>
-            <Link to="/cart" data-testid="cart-link">Cart</Link>
-            <button onClick={logout} data-testid="logout">Logout</button>
+            <Link to="/" data-testid={linkId.home}>Home</Link>
+            <Link to="/products" data-testid={linkId.products}>Products</Link>
+            <Link to="/orders" data-testid={linkId.orders}>Orders</Link>
+            <Link to="/cart" data-testid={linkId.cart}>Cart</Link>
+            <button onClick={logout} data-testid={clickId.logout}>Logout</button>
           </>
         );
       case 'Admin':
         return (
           <>
-            <Link to="/" data-testid="home-link">Home</Link>
-            <Link to="/products" data-testid="products-link">Products</Link>
-            <Link to="/orders" data-testid="orders-link">Orders</Link>
-            <Link to="/users" data-testid="users-link">Users</Link>
-            <button onClick={logout} data-testid="logout">Logout</button>
+            <Link to="/" data-testid={linkId.home}>Home</Link>
+            <Link to="/products" data-testid={linkId.products}>Products</Link>
+            <Link to="/orders" data-testid={linkId.orders}>Orders</Link>
+            <Link to="/users" data-testid={linkId.users}>Users</Link>
+            <button onClick={logout} data-testid={clickId.logout}>Logout</button>
           </>
         );
       default:
@@ -46,9 +46,9 @@ const Navbar = ({ role, logout }) => {
   };
 
   return (
-    <div data-testid="navbar-container">
+    <div data-testid={containerId.navbar}>
       {renderLinks()}
-      <div data-testid="profile-container">Role: {role}</div>
+      <div data-testid={containerId.profile}>Role: {role}</div>
     </div>
   );
 };

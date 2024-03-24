@@ -1,12 +1,11 @@
 import { ADD_TO_CART } from "../constants";
 
-export const addToCart = (productId, quantity, products) => {
+export const addToCart = (product, quantity) => {
   return {
     type: ADD_TO_CART,
     payload: {
-      productId,
-      quantity,
-      products
+      product,
+      quantity
     }
   };
 };

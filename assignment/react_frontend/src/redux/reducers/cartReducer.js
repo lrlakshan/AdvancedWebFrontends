@@ -5,42 +5,46 @@ const initialState = {
   total: 0
 };
 
+const roundToTwoDecimalPlaces = (value) => {
+  return Math.round((value + Number.EPSILON) * 100) / 100;
+};
+
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART: {
       // Add product to cart
-      const { productId, quantity, products } = action.payload;
-      const existingItemIndex = state.items.findIndex(item => item.productId === productId);
+      const { product, quantity } = action.payload;
+      const existingItemIndex = state.items.findIndex(item => item.product.id === product.id);
       if (existingItemIndex !== -1) {
         const updatedItems = [...state.items];
         updatedItems[existingItemIndex].quantity += quantity;
+        const updatedTotal = roundToTwoDecimalPlaces(state.total + (quantity * updatedItems[existingItemIndex].product.price));
         return {
           ...state,
           items: updatedItems,
-          total: state.total + (quantity * updatedItems[existingItemIndex].price)
+          total: updatedTotal
         };
       } else {
-        // Fetch product details from store
-        const product = products.find(product => product.id === productId);; // Fetch product details based on productId
         const newItem = {
-          productId,
-          quantity,
-          price: product.price, // Set the price of the product
+          product,
+          quantity
         };
+        const updatedTotal = roundToTwoDecimalPlaces(state.total + (quantity * product.price));
         return {
           ...state,
           items: [...state.items, newItem],
-          total: state.total + quantity * product.price,
+          total: updatedTotal,
         };
       }
     }
     case REMOVE_FROM_CART: {
-      const updatedItems = state.items.filter(item => item.productId !== action.payload.productId);
-      const removedItem = state.items.find(item => item.productId === action.payload.productId);
+      const updatedItems = state.items.filter(item => item.id !== action.payload.productId);
+      const removedItem = state.items.find(item => item.id === action.payload.productId);
+      const updatedTotal = roundToTwoDecimalPlaces(state.total - (removedItem.quantity * removedItem.price));
       return {
         ...state,
         items: updatedItems,
-        total: state.total - (removedItem.quantity * removedItem.price)
+        total: updatedTotal
       };
     }
     case CLEAR_CART:
