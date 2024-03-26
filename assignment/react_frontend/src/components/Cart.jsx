@@ -1,26 +1,30 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { increaseQuantity, decreaseQuantity } from "../redux/actionCreators/cartActions";
 import { dataTestIds } from "../tests/constants/components";
+import { USERS } from "../constants/constants";
 
 const Cart = () => {
   const { containerId, textId, clickId } = dataTestIds;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const cart = useSelector((state) => state.cart);
+  const { role } = useSelector(state => state.role);
 
-  const handleIncreaseCart = () => {
-    // Handle place order logic here
-    console.log("Increase...");
+  const handleIncreaseCart = (product) => {
+    dispatch(increaseQuantity(product));
   };
 
-  const handleDecreaseCart = () => {
-    // Handle place order logic here
-    console.log("Decrease...");
+  const handleDecreaseCart = (product) => {
+    dispatch(decreaseQuantity(product));
   };
 
   const handlePlaceOrder = () => {
-    // Handle place order logic here
-    console.log("Placing order...");
+    if (role === USERS.guest) {
+      navigate("/login");
+    }
   };
 
   return (
@@ -42,10 +46,10 @@ const Cart = () => {
               </p>
               <p data-testid={textId.price}>Price: {item.product.price}</p>
               <p data-testid={textId.quantity}>Quantity: {item.quantity}</p>
-              <button data-testid={clickId.reduce} onClick={() => handleDecreaseCart()}>
+              <button data-testid={clickId.reduce} onClick={() => handleDecreaseCart(item.product)}>
                 Reduce
               </button>
-              <button data-testid={clickId.add} onClick={() => handleIncreaseCart()}>
+              <button data-testid={clickId.add} onClick={() => handleIncreaseCart(item.product)}>
                 Add
               </button>
             </div>
