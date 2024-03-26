@@ -1,8 +1,10 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { axiosHelper } from "./utils/axiosHelper.jsx";
+import { useSelector, useDispatch } from "react-redux";
 import { dataTestIds } from "./tests/constants/components.js";
 import { Route, Routes } from "react-router-dom";
 import { USERS } from "./constants/constants.js";
+import { setUser } from "./redux/actionCreators/userActions.js";
 import Home from "./components/Home.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Cart from "./components/Cart.jsx";
@@ -16,16 +18,38 @@ import Notifications from "./components/Notifications.jsx";
 import PrivateRoute from "./utils/PrivateRoute.jsx";
 import NotFoundPage from "./components/NotFoundPage.jsx";
 
-const handleLogout = () => {
-  console.log("Logout function");
-};
-
 const App = () => {
+  const { containerId } = dataTestIds;
+  const dispatch = useDispatch();
   const { role } = useSelector(state => state.role);
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const data = await axiosHelper.get("/check-status");
+        dispatch(setUser(data.user.role));
+      } catch (error) {
+        dispatch(setUser(USERS.guest));
+        console.error(error);
+      }
+    };
+
+    checkAuthStatus();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const data = await axiosHelper.get("/logout");
+      dispatch(setUser(USERS.guest));
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div data-testid={dataTestIds.app}>
       <Navbar role={role} logout={handleLogout} />
+      <div data-testid={containerId.profile}>Role: {role}</div>
       <Notifications />
       <Routes>
         <Route exact path="/" element={<Home />} />

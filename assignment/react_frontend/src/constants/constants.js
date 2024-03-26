@@ -1,3 +1,5 @@
+export const BASE_URL = "http://localhost:3001/api"
+
 export const REQ_STATUS = {
   loading: "loading",
   success: "success",
@@ -5,7 +7,7 @@ export const REQ_STATUS = {
 };
 
 export const USERS = {
-  guest: "Guest",
-  admin: "Admin",
-  customer: "Customer",
+  guest: "guest",
+  admin: "admin",
+  customer: "customer",
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { dataTestIds } from '../tests/constants/components';
+import { USERS } from '../constants/constants';
 
 const Navbar = ({ role, logout }) => {
 
@@ -8,7 +9,7 @@ const Navbar = ({ role, logout }) => {
 
   const renderLinks = () => {
     switch (role) {
-      case 'Guest':
+      case USERS.guest:
         return (
           <nav>
             <ul>
@@ -20,7 +21,7 @@ const Navbar = ({ role, logout }) => {
             </ul>
           </nav>
         );
-      case 'Customer':
+      case USERS.customer:
         return (
           <>
             <Link to="/" data-testid={linkId.home}>Home</Link>
@@ -30,7 +31,7 @@ const Navbar = ({ role, logout }) => {
             <button onClick={logout} data-testid={clickId.logout}>Logout</button>
           </>
         );
-      case 'Admin':
+      case USERS.admin:
         return (
           <>
             <Link to="/" data-testid={linkId.home}>Home</Link>
@@ -48,7 +49,6 @@ const Navbar = ({ role, logout }) => {
   return (
     <div data-testid={containerId.navbar}>
       {renderLinks()}
-      <div data-testid={containerId.profile}>Role: {role}</div>
     </div>
   );
 };

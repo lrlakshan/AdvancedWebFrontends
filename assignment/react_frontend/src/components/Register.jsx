@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { dataTestIds, stateTypes } from "../tests/constants/components";
 import { setNotifications } from "../redux/actionCreators/notificationActions";
+import { register } from "../redux/actionCreators/thunks/users";
 
 const Register = () => {
   const { inputId, clickId, notificationId, containerId } = dataTestIds;
@@ -39,13 +40,14 @@ const Register = () => {
       return;
     }
 
-    // Here you can handle form submission logic, such as sending data to the server
-    console.log("Register:", {
-      name,
-      email,
-      password,
-      passwordConfirmation,
-    });
+    // Data representing the user to be register
+    const userData = {
+      name: name,
+      email: email,
+      password: password
+    };
+
+    dispatch(register(userData));
   };
 
   return (
