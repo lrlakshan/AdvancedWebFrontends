@@ -13,10 +13,12 @@ import ProductDetails from "./components/products/ProductDetails.jsx";
 import Register from "./components/Register.jsx";
 import Login from "./components/Login.jsx";
 import Users from "./components/Users.jsx";
-import Orders from "./components/Orders.jsx";
+import Orders from "./components/orders/Orders.jsx";
 import Notifications from "./components/Notifications.jsx";
 import PrivateRoute from "./utils/PrivateRoute.jsx";
 import NotFoundPage from "./components/NotFoundPage.jsx";
+import OrderDetails from "./components/orders/OrderDetails.jsx";
+import ModifyProduct from "./components/products/ModifyProduct.jsx";
 
 const App = () => {
   const { containerId } = dataTestIds;
@@ -55,6 +57,9 @@ const App = () => {
         <Route exact path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:productId" element={<ProductDetails />} />
+        <Route path="/products/:productId/modify" element={<PrivateRoute role={role} allowedRoles={[USERS.admin]}/>}>
+          <Route path="/products/:productId/modify" element={<ModifyProduct/>}/>
+        </Route>
         <Route exact path='/cart' element={<PrivateRoute role={role} allowedRoles={[USERS.guest, USERS.customer]}/>}>
             <Route exact path='/cart' element={<Cart/>}/>
         </Route>
@@ -69,6 +74,9 @@ const App = () => {
         </Route>
         <Route exact path='/orders' element={<PrivateRoute role={role} allowedRoles={[USERS.admin, USERS.customer]}/>}>
             <Route exact path='/orders' element={<Orders/>}/>
+        </Route>
+        <Route path='/orders/:orderId' element={<PrivateRoute role={role} allowedRoles={[USERS.admin, USERS.customer]}/>}>
+            <Route path="/orders/:orderId" element={<OrderDetails />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

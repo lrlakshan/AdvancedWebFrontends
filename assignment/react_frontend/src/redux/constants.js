@@ -9,6 +9,10 @@ export const DECREASE_QUANTITY = "DECREASE_QUANTITY";
 export const SET_PRODUCTS = "SET_PRODUCTS";
 export const SET_PRODUCT = "SET_PRODUCT";
 
+// Orders related constants
+export const SET_ORDERS = "SET_ORDERS";
+export const SET_ORDER = "SET_ORDER";
+
 // Notification related constants
 export const SET_NOTIFICATION = "SET_NOTIFICATION";
 export const CLEAR_NOTIFICATION = "CLEAR_NOTIFICATION";

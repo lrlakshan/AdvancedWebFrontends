@@ -8,12 +8,14 @@ import cartReducer from "./reducers/cartReducer";
 import productReducer from "./reducers/productReducer"
 import notificationReducer from "./reducers/notificationReducer";
 import userReducer from "./reducers/userReducer";
+import orderReducer from "./reducers/orderReducer";
 
 export const reducers = combineReducers({
   cart: cartReducer,
   products: productReducer,
   notifications: notificationReducer,
-  role: userReducer
+  role: userReducer,
+  orders: orderReducer
 });
 
 export default legacy_createStore(

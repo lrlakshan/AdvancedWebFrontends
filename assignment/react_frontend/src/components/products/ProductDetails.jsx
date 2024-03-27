@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { USERS } from "../../constants/constants";
 import { dataTestIds } from "../../tests/constants/components";
 import NotFoundPage from "../NotFoundPage";
@@ -11,6 +11,7 @@ const ProductDetailPage = () => {
 
   // Extract the productId from the URL parameters
   const { productId } = useParams();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const { role } = useSelector((state) => state.role);
@@ -41,8 +42,7 @@ const ProductDetailPage = () => {
   };
 
   const handleModify = () => {
-    // Implement modify product functionality here
-    console.log("Modify product with ID:", productId);
+    navigate(`/products/${productId}/modify`);
   };
 
   const handleAddToCart = () => {

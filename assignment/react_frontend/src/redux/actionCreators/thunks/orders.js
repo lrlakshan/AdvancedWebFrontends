@@ -1,42 +1,39 @@
 import { axiosHelper } from "../../../utils/axiosHelper";
+import { setOrder, setOrders } from "../orderAction";
 import { setNotifications } from "../notificationActions";
-import { setUser } from "../userActions";
 import { dataTestIds, stateTypes } from "../../../tests/constants/components";
 
-export const register = (userData) => {
-  const { notificationId } = dataTestIds;
+const { notificationId } = dataTestIds;
 
+export const getOrders = () => {
   return async (dispatch) => {
-
     dispatch(
       setNotifications(
-        stateTypes.auth,
-        notificationId.loading(stateTypes.auth),
+        stateTypes.order,
+        notificationId.loading(stateTypes.order),
         "loading",
         Date.now()
       )
     );
-
     try {
-      const data = await axiosHelper.post("/register", userData);
+      const data = await axiosHelper.get("/orders");
 
       dispatch(
         setNotifications(
-          stateTypes.auth,
-          notificationId.success(stateTypes.auth),
+          stateTypes.order,
+          notificationId.success(stateTypes.order),
           "success",
           Date.now()
         )
       );
-
-      dispatch(setUser(data.user.role));
+      dispatch(setOrders(data));
     } catch (error) {
       console.error(error);
       dispatch(
         setNotifications(
-          stateTypes.auth,
-          notificationId.error(stateTypes.auth),
-          error.response.data.error,
+          stateTypes.order,
+          notificationId.error(stateTypes.order),
+          "error",
           Date.now()
         )
       );
@@ -44,39 +41,36 @@ export const register = (userData) => {
   };
 };
 
-export const login = (userData) => {
-  const { notificationId } = dataTestIds;
-
+export const getOrder = (id) => {
   return async (dispatch) => {
-
     dispatch(
       setNotifications(
-        stateTypes.auth,
-        notificationId.loading(stateTypes.auth),
+        stateTypes.order,
+        notificationId.loading(stateTypes.order),
         "loading",
         Date.now()
       )
     );
-    
+
     try {
-      const data = await axiosHelper.post("/login", userData);
+      const data = await axiosHelper.get("/orders" + `/${id}`);
 
       dispatch(
         setNotifications(
-          stateTypes.auth,
-          notificationId.success(stateTypes.auth),
+          stateTypes.order,
+          notificationId.success(stateTypes.order),
           "success",
           Date.now()
         )
       );
-      dispatch(setUser(data.user.role));
+      dispatch(setOrder(data));
     } catch (error) {
       console.error(error);
       dispatch(
         setNotifications(
-          stateTypes.auth,
-          notificationId.error(stateTypes.auth),
-          error.response.data.error,
+          stateTypes.order,
+          notificationId.error(stateTypes.order),
+          "error",
           Date.now()
         )
       );
