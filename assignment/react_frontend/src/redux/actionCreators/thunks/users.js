@@ -10,7 +10,36 @@ export const register = (userData) => {
     try {
       const data = await axiosHelper.post("/register", userData);
 
-      console.log("data:", data.user.role);
+      dispatch(
+        setNotifications(
+          stateTypes.auth,
+          notificationId.success(stateTypes.auth),
+          "success",
+          Date.now()
+        )
+      );
+
+      dispatch(setUser(data.user.role));
+    } catch (error) {
+      console.error(error);
+      dispatch(
+        setNotifications(
+          stateTypes.auth,
+          notificationId.error(stateTypes.auth),
+          error.response.data.error,
+          Date.now()
+        )
+      );
+    }
+  };
+};
+
+export const login = (userData) => {
+  const { notificationId } = dataTestIds;
+
+  return async (dispatch) => {
+    try {
+      const data = await axiosHelper.post("/login", userData);
 
       dispatch(
         setNotifications(
@@ -27,7 +56,7 @@ export const register = (userData) => {
         setNotifications(
           stateTypes.auth,
           notificationId.error(stateTypes.auth),
-          "error",
+          error.response.data.error,
           Date.now()
         )
       );

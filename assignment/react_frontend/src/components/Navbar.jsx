@@ -23,13 +23,15 @@ const Navbar = ({ role, logout }) => {
         );
       case USERS.customer:
         return (
-          <>
-            <Link to="/" data-testid={linkId.home}>Home</Link>
-            <Link to="/products" data-testid={linkId.products}>Products</Link>
-            <Link to="/orders" data-testid={linkId.orders}>Orders</Link>
-            <Link to="/cart" data-testid={linkId.cart}>Cart</Link>
-            <button onClick={logout} data-testid={clickId.logout}>Logout</button>
-          </>
+          <nav>
+            <ul>
+              <li><Link to="/" data-testid={linkId.home}>Home</Link></li>
+              <li><Link to="/products" data-testid={linkId.products}>Products</Link></li>
+              <Link to="/orders" data-testid={linkId.orders}>Orders</Link>
+              <li><Link to="/cart" data-testid={linkId.cart}>Cart</Link></li>
+              <li><button onClick={logout} data-testid={clickId.logout}>Logout</button></li>
+            </ul>
+          </nav>
         );
       case USERS.admin:
         return (
