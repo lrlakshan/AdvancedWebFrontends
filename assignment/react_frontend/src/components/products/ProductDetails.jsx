@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { USERS } from "../../constants/constants";
-import { dataTestIds } from "../../tests/constants/components";
+import { dataTestIds, stateTypes } from "../../tests/constants/components";
 import NotFoundPage from "../NotFoundPage";
 import { getProduct } from "../../redux/actionCreators/thunks/products";
+import { addToCart } from "../../redux/actionCreators/cartActions";
+import { setNotifications } from "../../redux/actionCreators/notificationActions";
 
 const ProductDetailPage = () => {
-  const { containerId, textId, clickId } = dataTestIds;
+  const { containerId, textId, clickId, notificationId } = dataTestIds;
 
   // Extract the productId from the URL parameters
   const { productId } = useParams();
@@ -45,9 +47,16 @@ const ProductDetailPage = () => {
     navigate(`/products/${productId}/modify`);
   };
 
-  const handleAddToCart = () => {
-    // Implement add to cart functionality here
-    console.log("Add product with ID:", productId, "to cart");
+  const handleAddToCart = (product, quantity) => {
+    dispatch(addToCart(product, quantity));
+    dispatch(
+      setNotifications(
+        stateTypes.cart,
+        notificationId.success(stateTypes.cart),
+        "Added to cart",
+        Date.now()
+      )
+    );
   };
 
   return (
@@ -68,7 +77,10 @@ const ProductDetailPage = () => {
           </button>
         </div>
       ) : (
-        <button data-testid={clickId.add} onClick={handleAddToCart}>
+        <button
+          onClick={() => handleAddToCart(product, 1)}
+          data-testid={clickId.add}
+        >
           Add to Cart
         </button>
       )}

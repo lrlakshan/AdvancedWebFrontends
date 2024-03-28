@@ -5,11 +5,13 @@ import { dataTestIds, stateTypes } from '../../tests/constants/components';
 import { getProducts } from '../../redux/actionCreators/thunks/products';
 import { addToCart } from '../../redux/actionCreators/cartActions';
 import { setNotifications } from '../../redux/actionCreators/notificationActions';
+import { USERS } from '../../constants/constants';
 
 const Products = () => {
   const { notificationId, clickId, containerId, textId, linkId } = dataTestIds;
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
+  const { role } = useSelector(state => state.role);
 
   useEffect(() => {
     dispatch(getProducts());
@@ -18,6 +20,14 @@ const Products = () => {
   const handleAddToCart = (product, quantity) => {
     dispatch(addToCart(product, quantity));
     dispatch(setNotifications(stateTypes.cart, notificationId.success(stateTypes.cart), "Added to cart", Date.now()));
+  };
+
+  const handleDelete = () => {
+    // TODO
+  };
+
+  const handleModify = () => {
+    // TODO
   };
 
   return (
@@ -33,9 +43,20 @@ const Products = () => {
             <p data-testid={textId.name}>{product.name}</p>
             <p data-testid={textId.value}>Price: {product.price}</p>
             <Link to={`/products/${product.id}`} data-testid={linkId.inspect(product.id)}>Inspect</Link>
-            <button onClick={() => handleAddToCart(product, 1)} data-testid={clickId.add}>
-              Add
-            </button>
+            {USERS.admin === role ? (
+              <div>
+                <button data-testid={clickId.delete} onClick={handleDelete}>
+                  Delete
+                </button>
+                <button data-testid={clickId.modify} onClick={handleModify}>
+                  Modify
+                </button>
+              </div>
+            ) : (
+              <button onClick={() => handleAddToCart(product, 1)} data-testid={clickId.add}>
+                Add to Cart
+              </button>
+            )}
           </div>
         ))
       )}
