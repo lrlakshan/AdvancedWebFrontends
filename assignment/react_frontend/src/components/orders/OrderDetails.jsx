@@ -6,7 +6,7 @@ import NotFoundPage from "../NotFoundPage";
 import { getOrder } from "../../redux/actionCreators/thunks/orders";
 
 const OrderDetailPage = () => {
-  const { containerId, textId } = dataTestIds;
+  const { containerId, textId, clickId } = dataTestIds;
 
   // Extract the orderId from the URL parameters
   const { orderId } = useParams();

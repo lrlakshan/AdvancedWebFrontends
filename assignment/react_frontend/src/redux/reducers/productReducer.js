@@ -3,6 +3,7 @@ import {
   SET_PRODUCT,
   EDIT_PRODUCT,
   DELETE_PRODUCT,
+  ADD_NEW_PRODUCT,
 } from "../constants";
 
 const initialState = {
@@ -21,6 +22,12 @@ const productReducer = (state = initialState, action) => {
       return {
         ...state,
         product: action.payload,
+      };
+    case ADD_NEW_PRODUCT:
+      const withAddedProducts = [...state.products, action.payload];
+      return {
+        ...state,
+        products: withAddedProducts,
       };
     case EDIT_PRODUCT:
       const updatedProduts = state.products.filter(

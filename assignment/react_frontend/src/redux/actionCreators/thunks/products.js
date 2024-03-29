@@ -1,5 +1,5 @@
 import { axiosHelper } from "../../../utils/axiosHelper";
-import { setProducts, setProduct, removeProduct } from "../productActions";
+import { setProducts, setProduct, removeProduct, addNewProduct } from "../productActions";
 import { setNotifications } from "../notificationActions";
 import { dataTestIds, stateTypes } from "../../../tests/constants/components";
 import { editProduct } from "../productActions";
@@ -143,6 +143,44 @@ export const deleteProduct = (productId) => {
         )
       );
       dispatch(removeProduct(data));
+    } catch (error) {
+      console.error(error);
+      dispatch(
+        setNotifications(
+          stateTypes.product,
+          notificationId.error(stateTypes.product),
+          "error",
+          Date.now()
+        )
+      );
+    }
+  };
+};
+
+export const addProduct = (product) => {
+  return async (dispatch) => {
+
+    dispatch(
+      setNotifications(
+        stateTypes.product,
+        notificationId.loading(stateTypes.product),
+        "loading",
+        Date.now()
+      )
+    );
+    
+    try {
+      const data = await axiosHelper.post("/products", product);
+
+      dispatch(
+        setNotifications(
+          stateTypes.product,
+          notificationId.success(stateTypes.product),
+          "success",
+          Date.now()
+        )
+      );
+      dispatch(addNewProduct(data));
     } catch (error) {
       console.error(error);
       dispatch(
