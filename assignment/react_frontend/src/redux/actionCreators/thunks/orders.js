@@ -1,5 +1,5 @@
 import { axiosHelper } from "../../../utils/axiosHelper";
-import { setOrder, setOrders } from "../orderAction";
+import { placeNewOrder, setOrder, setOrders } from "../orderAction";
 import { setNotifications } from "../notificationActions";
 import { dataTestIds, stateTypes } from "../../../tests/constants/components";
 
@@ -77,3 +77,40 @@ export const getOrder = (id) => {
     }
   };
 };
+
+export const placeOrder = (order) => {
+    return async (dispatch) => {
+      dispatch(
+        setNotifications(
+          stateTypes.order,
+          notificationId.loading(stateTypes.order),
+          "loading",
+          Date.now()
+        )
+      );
+  
+      try {
+        const data = await axiosHelper.post("/orders", order);
+  
+        dispatch(
+          setNotifications(
+            stateTypes.order,
+            notificationId.success(stateTypes.order),
+            "success",
+            Date.now()
+          )
+        );
+        dispatch(placeNewOrder(data));
+      } catch (error) {
+        console.error(error);
+        dispatch(
+          setNotifications(
+            stateTypes.order,
+            notificationId.error(stateTypes.order),
+            "error",
+            Date.now()
+          )
+        );
+      }
+    };
+  };

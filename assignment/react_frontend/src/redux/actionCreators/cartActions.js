@@ -1,4 +1,4 @@
-import { ADD_TO_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from "../constants";
+import { ADD_TO_CART, CLEAR_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from "../constants";
 
 export const addToCart = (product, quantity) => {
   return {
@@ -28,17 +28,8 @@ export const decreaseQuantity = (product) => {
   };
 };
 
-export const removeFromCart = (productId) => {
-  return {
-    type: 'REMOVE_FROM_CART',
-    payload: {
-      productId
-    }
-  };
-};
-
 export const clearCart = () => {
   return {
-    type: 'CLEAR_CART'
+    type: CLEAR_CART
   };
 };

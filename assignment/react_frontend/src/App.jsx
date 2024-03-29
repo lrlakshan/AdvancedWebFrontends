@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { axiosHelper } from "./utils/axiosHelper.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import { dataTestIds } from "./tests/constants/components.js";
-import { Route, Routes } from "react-router-dom";
+import { dataTestIds, stateTypes } from "./tests/constants/components.js";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { USERS } from "./constants/constants.js";
-import { setUser } from "./redux/actionCreators/userActions.js";
+import { setUser, setUserWithAwait } from "./redux/actionCreators/userActions.js";
+import { setNotifications } from "./redux/actionCreators/notificationActions.js";
 import Home from "./components/Home.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Cart from "./components/Cart.jsx";
@@ -21,8 +22,9 @@ import OrderDetails from "./components/orders/OrderDetails.jsx";
 import ModifyProduct from "./components/products/ModifyProduct.jsx";
 
 const App = () => {
-  const { containerId } = dataTestIds;
+  const { containerId, notificationId } = dataTestIds;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { role } = useSelector(state => state.role);
 
   useEffect(() => {
@@ -41,10 +43,16 @@ const App = () => {
 
   const handleLogout = async () => {
     try {
-      const data = await axiosHelper.get("/logout");
-      dispatch(setUser(USERS.guest));
+      dispatch(setNotifications(stateTypes.auth, notificationId.loading(stateTypes.auth), "loading", Date.now()));
+      const response = await axiosHelper.logout("/logout");
+      if (response.status === 200) {
+        await setUserWithAwait(dispatch, USERS.guest);
+        dispatch(setNotifications(stateTypes.auth, notificationId.success(stateTypes.auth), "success", Date.now()));
+        navigate("/login");
+      }
     } catch (error) {
       console.error(error);
+      dispatch(setNotifications(stateTypes.auth, notificationId.error(stateTypes.auth), "error", Date.now()));
     }
   }
 

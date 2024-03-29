@@ -1,8 +1,8 @@
-import { SET_ORDERS, SET_ORDER } from "../constants";
+import { SET_ORDERS, SET_ORDER, PLACE_NEW_ORDER } from "../constants";
 
 const initialState = {
   orders: [],
-  order: {}
+  order: {},
 };
 
 const orderReducer = (state = initialState, action) => {
@@ -17,6 +17,12 @@ const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         order: action.payload,
+      };
+    case PLACE_NEW_ORDER:
+      const updatedOrder = [...state.orders, action.payload];
+      return {
+        ...state,
+        orders: updatedOrder,
       };
     default:
       return state;

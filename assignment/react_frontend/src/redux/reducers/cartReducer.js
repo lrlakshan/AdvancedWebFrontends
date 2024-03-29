@@ -1,6 +1,5 @@
 import {
   ADD_TO_CART,
-  REMOVE_FROM_CART,
   CLEAR_CART,
   INCREASE_QUANTITY,
   DECREASE_QUANTITY,
@@ -99,22 +98,6 @@ const cartReducer = (state = initialState, action) => {
           total: updatedTotal,
         };
       }
-    }
-    case REMOVE_FROM_CART: {
-      const updatedItems = state.items.filter(
-        (item) => item.id !== action.payload.productId
-      );
-      const removedItem = state.items.find(
-        (item) => item.id === action.payload.productId
-      );
-      const updatedTotal = roundToTwoDecimalPlaces(
-        state.total - removedItem.quantity * removedItem.price
-      );
-      return {
-        ...state,
-        items: updatedItems,
-        total: updatedTotal,
-      };
     }
     case CLEAR_CART:
       return {

@@ -1,6 +1,5 @@
 // Cart related constants
 export const ADD_TO_CART = "ADD_TO_CART";
-export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const CLEAR_CART = "CLEAR_CART";
 export const INCREASE_QUANTITY = "INCREASE_QUANTITY";
 export const DECREASE_QUANTITY = "DECREASE_QUANTITY";
@@ -12,6 +11,7 @@ export const SET_PRODUCT = "SET_PRODUCT";
 // Orders related constants
 export const SET_ORDERS = "SET_ORDERS";
 export const SET_ORDER = "SET_ORDER";
+export const PLACE_NEW_ORDER = "PLACE_NEW_ORDER";
 
 // Notification related constants
 export const SET_NOTIFICATION = "SET_NOTIFICATION";

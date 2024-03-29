@@ -1,12 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { increaseQuantity, decreaseQuantity } from "../redux/actionCreators/cartActions";
-import { dataTestIds } from "../tests/constants/components";
+import { increaseQuantity, decreaseQuantity, clearCart } from "../redux/actionCreators/cartActions";
+import { setNotifications } from "../redux/actionCreators/notificationActions";
+import { dataTestIds, stateTypes } from "../tests/constants/components";
 import { USERS } from "../constants/constants";
+import { placeOrder } from "../redux/actionCreators/thunks/orders";
 
 const Cart = () => {
-  const { containerId, textId, clickId } = dataTestIds;
+  const { containerId, textId, clickId, notificationId } = dataTestIds;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,7 +25,30 @@ const Cart = () => {
 
   const handlePlaceOrder = () => {
     if (role === USERS.guest) {
+      dispatch(
+        setNotifications(
+          stateTypes.auth,
+          notificationId.error(stateTypes.auth),
+          "Yu have to login first",
+          Date.now()
+        )
+      );
       navigate("/login");
+    } else if (role === USERS.customer) {
+      const updatedItems = cart.items.map((item) => {
+        const { image, ...productWithoutImage } = item.product;
+        return {
+          ...item,
+          product: productWithoutImage,
+        };
+      });
+
+      // Removed image field from the cart data
+      // Create a new object with the updated items array
+      const updatedData = { items: updatedItems };
+
+      dispatch(placeOrder(updatedData));
+      dispatch(clearCart());
     }
   };
 

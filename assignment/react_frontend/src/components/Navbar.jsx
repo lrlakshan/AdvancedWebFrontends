@@ -27,7 +27,7 @@ const Navbar = ({ role, logout }) => {
             <ul>
               <li><Link to="/" data-testid={linkId.home}>Home</Link></li>
               <li><Link to="/products" data-testid={linkId.products}>Products</Link></li>
-              <Link to="/orders" data-testid={linkId.orders}>Orders</Link>
+              <li><Link to="/orders" data-testid={linkId.orders}>Orders</Link></li>
               <li><Link to="/cart" data-testid={linkId.cart}>Cart</Link></li>
               <li><button onClick={logout} data-testid={clickId.logout}>Logout</button></li>
             </ul>

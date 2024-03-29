@@ -1,6 +1,6 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { dataTestIds } from "../../tests/constants/components";
 import { getOrders } from "../../redux/actionCreators/thunks/orders";
 
@@ -8,7 +8,7 @@ const Orders = () => {
   const { containerId, textId, linkId } = dataTestIds;
   const dispatch = useDispatch();
 
-  const { orders } = useSelector(state => state.orders);
+  const { orders } = useSelector((state) => state.orders);
 
   useEffect(() => {
     dispatch(getOrders());
@@ -20,19 +20,14 @@ const Orders = () => {
       {orders.length === 0 ? (
         <div data-testid={containerId.empty}>No orders available</div>
       ) : (
-        <div>
-          {orders.map((order) => (
-            <div
-              key={order.id}
-              data-testid={containerId.listItem(order.id)}
-            >
-              <p data-testid={textId.id}>ID: {order.id}</p>
-              <p data-testid={linkId.inspect(order.id)}>
-                <Link to={`/orders/${order.id}`}>View Order</Link>
-              </p>
-            </div>
-          ))}
-        </div>
+        orders.map((order) => (
+          <div key={order.id} data-testid={containerId.listItem(order.id)}>
+            <p data-testid={textId.id}>ID: {order.id}</p>
+            <p>
+              <Link to={`/orders/${order.id}`} data-testid={linkId.inspect(order.id)}>View Order</Link>
+            </p>
+          </div>
+        ))
       )}
     </div>
   );

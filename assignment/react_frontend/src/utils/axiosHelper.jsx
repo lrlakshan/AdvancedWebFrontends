@@ -40,5 +40,13 @@ export const axiosHelper = {
     } catch (error) {
       throw error;
     }
+  },
+  logout: async (url, config = {}) => {
+    try {
+      const response = await instance.get(url, config);
+      return response;
+    } catch (error) {
+      throw error;
+    }
   }
 };
