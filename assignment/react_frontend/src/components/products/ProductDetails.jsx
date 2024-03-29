@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { USERS } from "../../constants/constants";
 import { dataTestIds, stateTypes } from "../../tests/constants/components";
 import NotFoundPage from "../NotFoundPage";
-import { getProduct } from "../../redux/actionCreators/thunks/products";
+import { deleteProduct, getProduct } from "../../redux/actionCreators/thunks/products";
 import { addToCart } from "../../redux/actionCreators/cartActions";
 import { setNotifications } from "../../redux/actionCreators/notificationActions";
 
@@ -39,8 +39,8 @@ const ProductDetailPage = () => {
   }
 
   const handleDelete = () => {
-    // Implement delete product functionality here
-    console.log("Delete product with ID:", productId);
+    navigate("/products");
+    dispatch(deleteProduct(productId));
   };
 
   const handleModify = () => {
@@ -62,7 +62,7 @@ const ProductDetailPage = () => {
   return (
     <div data-testid={containerId.inspect}>
       <h2>Product Detail</h2>
-      <p data-testid={textId.value}>Name: {selectedProduct.name}</p>
+      <p data-testid={textId.name}>Name: {selectedProduct.name}</p>
       <p data-testid={textId.description}>
         Description: {selectedProduct.description}
       </p>

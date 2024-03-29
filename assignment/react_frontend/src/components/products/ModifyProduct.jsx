@@ -32,8 +32,9 @@ const ModifyProduct = () => {
     navigate(`/products/${product.id}`)
   };
 
-  const handleCancel = () => {
-    // TODO
+  const handleCancel = (event) => {
+    event.preventDefault();
+    navigate(`/products/${product.id}`);
   };
 
   return (

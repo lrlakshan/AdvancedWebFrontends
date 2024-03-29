@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { axiosHelper } from "./utils/axiosHelper.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { dataTestIds, stateTypes } from "./tests/constants/components.js";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { USERS } from "./constants/constants.js";
 import { setUser, setUserWithAwait } from "./redux/actionCreators/userActions.js";
 import { setNotifications } from "./redux/actionCreators/notificationActions.js";
@@ -25,6 +25,7 @@ const App = () => {
   const { containerId, notificationId, textId } = dataTestIds;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { role } = useSelector(state => state.role);
 
   useEffect(() => {
@@ -43,12 +44,17 @@ const App = () => {
 
   const handleLogout = async () => {
     try {
+      const currentPath = location.pathname;
       dispatch(setNotifications(stateTypes.auth, notificationId.loading(stateTypes.auth), "loading", Date.now()));
       const response = await axiosHelper.logout("/logout");
       if (response.status === 200) {
         await setUserWithAwait(dispatch, USERS.guest);
         dispatch(setNotifications(stateTypes.auth, notificationId.success(stateTypes.auth), "success", Date.now()));
-        navigate("/login");
+        if (currentPath === "/products") {
+          navigate("/products");
+        } else {
+          navigate("/login");
+        }
       }
     } catch (error) {
       console.error(error);

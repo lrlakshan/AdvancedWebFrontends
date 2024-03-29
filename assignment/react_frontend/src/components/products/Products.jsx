@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { dataTestIds, stateTypes } from "../../tests/constants/components";
-import { getProduct, getProducts } from "../../redux/actionCreators/thunks/products";
+import { deleteProduct, getProduct, getProducts } from "../../redux/actionCreators/thunks/products";
 import { addToCart } from "../../redux/actionCreators/cartActions";
 import { setNotifications } from "../../redux/actionCreators/notificationActions";
 import { USERS } from "../../constants/constants";
@@ -30,8 +30,8 @@ const Products = () => {
     );
   };
 
-  const handleDelete = () => {
-    // TODO
+  const handleDelete = (productId) => {
+    dispatch(deleteProduct(productId));
   };
 
   const handleModify = (productId) => {
@@ -57,7 +57,7 @@ const Products = () => {
             </Link>
             {USERS.admin === role ? (
               <div>
-                <button data-testid={clickId.delete} onClick={handleDelete}>
+                <button data-testid={clickId.delete} onClick={() => handleDelete(product.id)}>
                   Delete
                 </button>
                 <button

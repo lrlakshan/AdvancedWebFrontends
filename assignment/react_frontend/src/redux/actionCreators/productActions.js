@@ -1,4 +1,4 @@
-import { SET_PRODUCTS, SET_PRODUCT, EDIT_PRODUCT } from "../constants";
+import { SET_PRODUCTS, SET_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT } from "../constants";
 
 export const setProducts = (products) => ({
   type: SET_PRODUCTS,
@@ -12,5 +12,10 @@ export const setProduct = (product) => ({
 
 export const editProduct = (product) => ({
   type: EDIT_PRODUCT,
+  payload: product,
+});
+
+export const removeProduct = (product) => ({
+  type: DELETE_PRODUCT,
   payload: product,
 });
