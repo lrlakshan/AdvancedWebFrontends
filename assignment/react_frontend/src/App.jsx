@@ -22,7 +22,7 @@ import OrderDetails from "./components/orders/OrderDetails.jsx";
 import ModifyProduct from "./components/products/ModifyProduct.jsx";
 
 const App = () => {
-  const { containerId, notificationId } = dataTestIds;
+  const { containerId, notificationId, textId } = dataTestIds;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { role } = useSelector(state => state.role);
@@ -59,7 +59,9 @@ const App = () => {
   return (
     <div data-testid={dataTestIds.app}>
       <Navbar role={role} logout={handleLogout} />
-      <div data-testid={containerId.profile}>Role: {role}</div>
+      <div data-testid={containerId.profile}>
+        <div data-testid={textId.role}>Role: {role}</div>
+      </div>
       <Notifications />
       <Routes>
         <Route exact path="/" element={<Home />} />

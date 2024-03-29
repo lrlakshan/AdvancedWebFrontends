@@ -1,19 +1,35 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { dataTestIds } from "../../tests/constants/components";
+import { updateProduct } from "../../redux/actionCreators/thunks/products";
 
 const ModifyProduct = () => {
   const { containerId, clickId, inputId } = dataTestIds;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { product } = useSelector((state) => state.products);
 
-  const [name, setName] = useState(product.name);
-  const [description, setDescription] = useState(product.description);
-  const [price, setPrice] = useState(product.price);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+
+  useEffect(() => {
+    setName(product.name || "");
+    setDescription(product.description || "");
+    setPrice(product.price || "");
+  }, [product]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // TODO
+    const productToBeUpdated = {
+        price: price,
+        name: name,
+        description: description
+    }
+    dispatch(updateProduct(product.id, productToBeUpdated));
+    navigate(`/products/${product.id}`)
   };
 
   const handleCancel = () => {
@@ -27,7 +43,7 @@ const ModifyProduct = () => {
         <label htmlFor={inputId.id}>ID:</label>
           <input
             data-testid={inputId.id}
-            value={product.id}
+            value={product.id || ""}
             readOnly
           />
         </div>

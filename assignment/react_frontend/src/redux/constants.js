@@ -7,6 +7,7 @@ export const DECREASE_QUANTITY = "DECREASE_QUANTITY";
 // Product related constants
 export const SET_PRODUCTS = "SET_PRODUCTS";
 export const SET_PRODUCT = "SET_PRODUCT";
+export const EDIT_PRODUCT = "EDIT_PRODUCT";
 
 // Orders related constants
 export const SET_ORDERS = "SET_ORDERS";

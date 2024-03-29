@@ -35,13 +35,15 @@ const Navbar = ({ role, logout }) => {
         );
       case USERS.admin:
         return (
-          <>
-            <Link to="/" data-testid={linkId.home}>Home</Link>
-            <Link to="/products" data-testid={linkId.products}>Products</Link>
-            <Link to="/orders" data-testid={linkId.orders}>Orders</Link>
-            <Link to="/users" data-testid={linkId.users}>Users</Link>
-            <button onClick={logout} data-testid={clickId.logout}>Logout</button>
-          </>
+          <nav>
+            <ul>
+              <li><Link to="/" data-testid={linkId.home}>Home</Link></li>
+              <li><Link to="/products" data-testid={linkId.products}>Products</Link></li>
+              <li><Link to="/orders" data-testid={linkId.orders}>Orders</Link></li>
+              <li><Link to="/users" data-testid={linkId.users}>Users</Link></li>
+              <li><button onClick={logout} data-testid={clickId.logout}>Logout</button></li>
+            </ul>
+          </nav>
         );
       default:
         return null;
