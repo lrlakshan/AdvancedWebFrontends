@@ -18,7 +18,7 @@ const Products = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { products } = useSelector((state) => state.products);
-  const { role } = useSelector((state) => state.role);
+  const { role } = useSelector((state) => state.user);
 
   // State for managing product creator form visibility
   const [isProductCreatorOpen, setProductCreatorOpen] = useState(false);

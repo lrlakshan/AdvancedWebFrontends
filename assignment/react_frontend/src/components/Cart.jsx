@@ -13,7 +13,7 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const cart = useSelector((state) => state.cart);
-  const { role } = useSelector(state => state.role);
+  const { role } = useSelector(state => state.user);
 
   const handleIncreaseCart = (product) => {
     dispatch(increaseQuantity(product));

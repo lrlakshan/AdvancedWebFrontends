@@ -21,4 +21,8 @@ export const SET_NOTIFICATION = "SET_NOTIFICATION";
 export const CLEAR_NOTIFICATION = "CLEAR_NOTIFICATION";
 
 // User related constants
-export const SET_USER = "SET_USER"
+export const SET_USER_ROLE = "SET_USER_ROLE"
+export const GET_ALL_USER = "GET_ALL_USER"
+export const GET_SELECTED_USER = "GET_SELECTED_USER"
+export const SET_CURRENT_USER = "SET_CURRENT_USER"
+export const UPDATE_USER = "UPDATE_USER"

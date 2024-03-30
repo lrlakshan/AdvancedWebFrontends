@@ -16,7 +16,7 @@ const ProductDetailPage = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { role } = useSelector((state) => state.role);
+  const { role } = useSelector((state) => state.user);
   const { products, product } = useSelector((state) => state.products);
 
   // State variable to track if the product has been fetched

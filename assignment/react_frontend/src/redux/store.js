@@ -14,7 +14,7 @@ export const reducers = combineReducers({
   cart: cartReducer,
   products: productReducer,
   notifications: notificationReducer,
-  role: userReducer,
+  user: userReducer,
   orders: orderReducer
 });
 
