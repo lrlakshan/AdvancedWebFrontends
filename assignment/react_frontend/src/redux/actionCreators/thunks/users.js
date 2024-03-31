@@ -93,8 +93,8 @@ export const fetchUsers = () => {
 
     dispatch(
       setNotifications(
-        stateTypes.auth,
-        notificationId.loading(stateTypes.auth),
+        stateTypes.user,
+        notificationId.loading(stateTypes.user),
         "loading",
         Date.now()
       )
@@ -102,22 +102,21 @@ export const fetchUsers = () => {
     
     try {
       const data = await axiosHelper.get("/users");
-
+      dispatch(getAllUsers(data));
       dispatch(
         setNotifications(
-          stateTypes.auth,
-          notificationId.success(stateTypes.auth),
+          stateTypes.user,
+          notificationId.success(stateTypes.user),
           "success",
           Date.now()
         )
       );
-      dispatch(getAllUsers(data));
     } catch (error) {
       console.error(error);
       dispatch(
         setNotifications(
-          stateTypes.auth,
-          notificationId.error(stateTypes.auth),
+          stateTypes.user,
+          notificationId.error(stateTypes.user),
           error.response.data.error,
           Date.now()
         )
@@ -133,8 +132,8 @@ export const fetchUser = (id) => {
 
     dispatch(
       setNotifications(
-        stateTypes.auth,
-        notificationId.loading(stateTypes.auth),
+        stateTypes.user,
+        notificationId.loading(stateTypes.user),
         "loading",
         Date.now()
       )
@@ -145,8 +144,8 @@ export const fetchUser = (id) => {
 
       dispatch(
         setNotifications(
-          stateTypes.auth,
-          notificationId.success(stateTypes.auth),
+          stateTypes.user,
+          notificationId.success(stateTypes.user),
           "success",
           Date.now()
         )
@@ -156,8 +155,8 @@ export const fetchUser = (id) => {
       console.error(error);
       dispatch(
         setNotifications(
-          stateTypes.auth,
-          notificationId.error(stateTypes.auth),
+          stateTypes.user,
+          notificationId.error(stateTypes.user),
           error.response.data.error,
           Date.now()
         )
@@ -173,8 +172,8 @@ export const modifyUser = (id, role) => {
 
     dispatch(
       setNotifications(
-        stateTypes.auth,
-        notificationId.loading(stateTypes.auth),
+        stateTypes.user,
+        notificationId.loading(stateTypes.user),
         "loading",
         Date.now()
       )
@@ -185,8 +184,8 @@ export const modifyUser = (id, role) => {
 
       dispatch(
         setNotifications(
-          stateTypes.auth,
-          notificationId.success(stateTypes.auth),
+          stateTypes.user,
+          notificationId.success(stateTypes.user),
           "success",
           Date.now()
         )
@@ -196,8 +195,8 @@ export const modifyUser = (id, role) => {
       console.error(error);
       dispatch(
         setNotifications(
-          stateTypes.auth,
-          notificationId.error(stateTypes.auth),
+          stateTypes.user,
+          notificationId.error(stateTypes.user),
           error.response.data.error,
           Date.now()
         )

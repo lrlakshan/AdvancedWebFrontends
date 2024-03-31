@@ -12,14 +12,6 @@ const Users = () => {
   const { allUsers, currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(
-      setNotifications(
-        stateTypes.auth,
-        notificationId.loading(stateTypes.auth),
-        "loading",
-        Date.now()
-      )
-    );
     dispatch(fetchUsers());
   }, [dispatch]);
 
