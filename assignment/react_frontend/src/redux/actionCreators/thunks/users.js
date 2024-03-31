@@ -141,7 +141,7 @@ export const fetchUser = (id) => {
     
     try {
       const data = await axiosHelper.get("/users" + `/${id}`);
-
+      dispatch(getSelectedUsers(data));
       dispatch(
         setNotifications(
           stateTypes.user,
@@ -150,8 +150,8 @@ export const fetchUser = (id) => {
           Date.now()
         )
       );
-      dispatch(getSelectedUsers(data));
     } catch (error) {
+      dispatch(getSelectedUsers({}));
       console.error(error);
       dispatch(
         setNotifications(

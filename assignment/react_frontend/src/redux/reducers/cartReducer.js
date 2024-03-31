@@ -54,6 +54,7 @@ const cartReducer = (state = initialState, action) => {
       const existingItemIndex = state.items.findIndex(
         (item) => item.product.id === product.id
       );
+      console.log("state.items", state.items);
       const updatedItems = [...state.items];
       updatedItems[existingItemIndex].quantity += 1;
       const updatedTotal = roundToTwoDecimalPlaces(

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { dataTestIds, stateTypes } from "../tests/constants/components";
 import { setNotifications } from "../redux/actionCreators/notificationActions";
@@ -16,7 +16,7 @@ const Register = () => {
   const validEmailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   // Function to handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = useCallback((event) => {
     event.preventDefault();
 
     // Validation checks
@@ -48,7 +48,23 @@ const Register = () => {
     };
 
     dispatch(register(userData));
-  };
+  }, [dispatch, name, email, password, passwordConfirmation]);
+
+  const handleNameChange = useCallback((e) => {
+    setName(e.target.value);
+  }, []);
+
+  const handleEmailChange = useCallback((e) => {
+    setEmail(e.target.value);
+  }, []);
+
+  const handlePasswordChange = useCallback((e) => {
+    setPassword(e.target.value);
+  }, []);
+
+  const handlePasswordConfirmationChange = useCallback((e) => {
+    setPasswordConfirmation(e.target.value);
+  }, []);
 
   return (
     <div data-testid={containerId.form}>
@@ -60,7 +76,7 @@ const Register = () => {
             type="text"
             id={inputId.name}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={handleNameChange}
             data-testid={inputId.name}
             required
           />
@@ -71,7 +87,7 @@ const Register = () => {
             type="email"
             id={inputId.email}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             data-testid={inputId.email}
             required
           />
@@ -82,7 +98,7 @@ const Register = () => {
             type="password"
             id={inputId.password}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
             data-testid={inputId.password}
             required
           />
@@ -93,7 +109,7 @@ const Register = () => {
             type="password"
             id={inputId.passwordConfirmation}
             value={passwordConfirmation}
-            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            onChange={handlePasswordConfirmationChange}
             data-testid={inputId.passwordConfirmation}
             required
           />

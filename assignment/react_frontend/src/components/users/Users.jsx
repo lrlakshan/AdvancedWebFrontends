@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteUser, fetchUser, fetchUsers } from "../../redux/actionCreators/thunks/users";
 import { dataTestIds, stateTypes } from "../../tests/constants/components";
-import { setNotifications } from "../../redux/actionCreators/notificationActions";
 
 const Users = () => {
   const { containerId, textId, linkId, clickId, notificationId } = dataTestIds;
@@ -15,14 +14,18 @@ const Users = () => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
-  const handleDelete = (userId) => {
-    dispatch(deleteUser(userId));
-  };
+  const handleDelete = useCallback((userId) => {
+    return () => {
+      dispatch(deleteUser(userId));
+    }
+  }, [dispatch]);
 
-  const handleModify = (userId) => {
-    dispatch(fetchUser(userId));
-    navigate(`/users/${userId}/modify`);
-  };
+  const handleModify = useCallback((userId) => {
+    return () => {
+      dispatch(fetchUser(userId));
+      navigate(`/users/${userId}/modify`);
+    }
+  }, [dispatch, navigate]);
 
   return (
     <div data-testid={containerId.main}>
@@ -38,10 +41,10 @@ const Users = () => {
             </p>
             {user.id !== currentUser.id && (
               <div>
-                <button data-testid={clickId.modify} onClick={() => handleModify(user.id)}>
+                <button data-testid={clickId.modify} onClick={handleModify(user.id)}>
                   Modify
                 </button>
-                <button data-testid={clickId.delete} onClick={() => handleDelete(user.id)}>
+                <button data-testid={clickId.delete} onClick={handleDelete(user.id)}>
                   Delete
                 </button>
               </div>
