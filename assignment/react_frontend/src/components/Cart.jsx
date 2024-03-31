@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { increaseQuantity, decreaseQuantity, clearCart } from "../redux/actionCreators/cartActions";
@@ -15,21 +15,25 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const { role } = useSelector(state => state.user);
 
-  const handleIncreaseCart = (product) => {
-    dispatch(increaseQuantity(product));
-  };
+  const handleIncreaseCart = useCallback((product) => {
+    return () => {
+      dispatch(increaseQuantity(product));
+    };
+  }, [dispatch]);
+  
+  const handleDecreaseCart = useCallback((product) => {
+    return () => {
+      dispatch(decreaseQuantity(product));
+    };
+  }, [dispatch]);
 
-  const handleDecreaseCart = (product) => {
-    dispatch(decreaseQuantity(product));
-  };
-
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = useCallback(() => {
     if (role === USERS.guest) {
       dispatch(
         setNotifications(
           stateTypes.auth,
           notificationId.error(stateTypes.auth),
-          "Yu have to login first",
+          "You have to login first",
           Date.now()
         )
       );
@@ -50,7 +54,7 @@ const Cart = () => {
       dispatch(placeOrder(updatedData));
       dispatch(clearCart());
     }
-  };
+  }, [dispatch, cart, role, navigate]);
 
   return (
     <div data-testid={containerId.main}>
@@ -71,10 +75,10 @@ const Cart = () => {
               </p>
               <p data-testid={textId.price}>Price: {item.product.price}</p>
               <p data-testid={textId.quantity}>Quantity: {item.quantity}</p>
-              <button data-testid={clickId.reduce} onClick={() => handleDecreaseCart(item.product)}>
+              <button data-testid={clickId.reduce} onClick={handleDecreaseCart(item.product)}>
                 Reduce
               </button>
-              <button data-testid={clickId.add} onClick={() => handleIncreaseCart(item.product)}>
+              <button data-testid={clickId.add} onClick={handleIncreaseCart(item.product)}>
                 Add
               </button>
             </div>

@@ -17,21 +17,16 @@ const UserDetailsPage = () => {
     (state) => state.user
   );
 
-  // State variable to track if the user has been fetched
-  const [userFetched, setUserFetched] = useState(false);
-
   // Find the selected user from the store
-  const userFound = allUsers.find((user) => user.id === userId) || selectedUser;
+  //const userFound = allUsers.find((user) => user.id === userId) || selectedUser;
 
   // Dispatch getUser action only when the user has not been fetched
   useEffect(() => {
-    if (!userFetched) {
-      dispatch(fetchUser(userId));
-      setUserFetched(true);
-    }
-  }, [dispatch, userId, userFetched]);
+    dispatch(fetchUser(userId));
+  }, [dispatch, userId]);
+  console.log("userFound", Object.keys(selectedUser).length === 0);
 
-  if (!userFound && !userFetched) {
+  if ((Object.keys(selectedUser).length === 0)) {
     return <NotFoundPage />;
   }
 
@@ -47,9 +42,9 @@ const UserDetailsPage = () => {
   return (
     <div data-testid={containerId.inspect}>
       <h2>User Detail</h2>
-      <p data-testid={textId.email}>Email: {userFound.email}</p>
-      <p data-testid={textId.role}>Role: {userFound.role}</p>
-      {userFound.id !== currentUser.id && (
+      <p data-testid={textId.email}>Email: {selectedUser.email}</p>
+      <p data-testid={textId.role}>Role: {selectedUser.role}</p>
+      {selectedUser.id !== currentUser.id && (
         <div>
           <button data-testid={clickId.delete} onClick={handleDelete}>
             Delete

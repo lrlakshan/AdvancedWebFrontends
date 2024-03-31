@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { dataTestIds } from "../../tests/constants/components";
@@ -21,32 +21,46 @@ const ModifyProduct = () => {
     setPrice(product.price || "");
   }, [product]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const productToBeUpdated = {
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      const productToBeUpdated = {
         price: price,
         name: name,
-        description: description
-    }
-    dispatch(updateProduct(product.id, productToBeUpdated));
-    navigate(`/products/${product.id}`)
-  };
+        description: description,
+      };
+      dispatch(updateProduct(product.id, productToBeUpdated));
+      navigate(-1);
+    },
+    [dispatch, navigate, price, name, description, product.id]
+  );
 
-  const handleCancel = (event) => {
-    event.preventDefault();
-    navigate(`/products/${product.id}`);
-  };
+  const handleCancel = useCallback(
+    (event) => {
+      event.preventDefault();
+      navigate(`/products/${product.id}`);
+    },
+    [navigate, product.id]
+  );
+
+  const handleNameChange = useCallback((e) => {
+    setName(e.target.value);
+  }, []);
+
+  const handleDescriptionChange = useCallback((e) => {
+    setDescription(e.target.value);
+  }, []);
+
+  const handlePriceChange = useCallback((e) => {
+    setPrice(e.target.value);
+  }, []);
 
   return (
     <div data-testid={containerId.form}>
       <form onSubmit={handleSubmit}>
         <div>
-        <label htmlFor={inputId.id}>ID:</label>
-          <input
-            data-testid={inputId.id}
-            value={product.id || ""}
-            readOnly
-          />
+          <label htmlFor={inputId.id}>ID:</label>
+          <input data-testid={inputId.id} value={product.id || ""} readOnly />
         </div>
         <div>
           <label htmlFor={inputId.name}>Name:</label>
@@ -55,7 +69,7 @@ const ModifyProduct = () => {
             id={inputId.name}
             data-testid={inputId.name}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={handleNameChange}
             required
           />
         </div>
@@ -65,7 +79,7 @@ const ModifyProduct = () => {
             id={inputId.description}
             data-testid={inputId.description}
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={handleDescriptionChange}
             required
           ></textarea>
         </div>
@@ -77,7 +91,7 @@ const ModifyProduct = () => {
             id={inputId.price}
             data-testid={inputId.price}
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={handlePriceChange}
             required
           />
         </div>
@@ -86,10 +100,7 @@ const ModifyProduct = () => {
           <button type={clickId.submit} data-testid={clickId.submit}>
             Update
           </button>
-          <button
-            onClick={handleCancel}
-            data-testid={clickId.cancel}
-          >
+          <button onClick={handleCancel} data-testid={clickId.cancel}>
             Cancel
           </button>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { dataTestIds, stateTypes } from "../tests/constants/components";
 import { setNotifications } from "../redux/actionCreators/notificationActions";
@@ -14,7 +14,7 @@ const Login = () => {
   const validEmailRegex =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
 
     if (!validEmailRegex.test(email)) {
@@ -47,7 +47,15 @@ const Login = () => {
       password: password,
     };
     dispatch(login(userData));
-  };
+  }, [email, password, dispatch]);
+
+  const handleEmailChange = useCallback((e) => {
+    setEmail(e.target.value);
+  }, []);
+
+  const handlePasswordChange = useCallback((e) => {
+    setPassword(e.target.value);
+  }, []);
 
   return (
     <div data-testid={containerId.form}>
@@ -59,7 +67,7 @@ const Login = () => {
             type="email"
             id={inputId.email}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             data-testid={inputId.email}
             required
           />
@@ -70,7 +78,7 @@ const Login = () => {
             type="password"
             id={inputId.password}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
             data-testid={inputId.password}
             required
           />
