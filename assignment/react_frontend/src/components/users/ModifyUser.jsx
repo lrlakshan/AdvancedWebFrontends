@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { USERS } from "../../constants/constants";
@@ -18,23 +18,23 @@ const ModifyUser = () => {
     setRole(selectedUser.role || USERS.customer);
   }, [selectedUser]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = ((event) => {
     event.preventDefault();
     const userToBeUpdated = {
         role: role
     };
     dispatch(modifyUser(selectedUser.id, userToBeUpdated));
     navigate(-1);
-  };
+  }, [dispatch, selectedUser, navigate]);
 
-  const handleCancel = (event) => {
+  const handleCancel = useCallback((event) => {
     event.preventDefault();
     navigate(`/users/${selectedUser.id}`);
-  };
+  }, [navigate, selectedUser]);
 
-  const handleRoleChange = (event) => {
+  const handleRoleChange = useCallback((event) => {
     setRole(event.target.value);
-  };
+  }, []);
 
   return (
     <div data-testid={containerId.form}>
