@@ -35,25 +35,6 @@ const App = () => {
   const location = useLocation();
   const { role } = useSelector(state => state.user);
 
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const data = await axiosHelper.get("/check-status");
-        dispatch(setUserRole(data.user.role));
-
-        if (USERS.guest !== data.user.role){
-          dispatch(setCurrentUser(data.user));
-        }
-      } catch (error) {
-        dispatch(setUserRole(USERS.guest));
-        dispatch(setCurrentUser({}));
-        console.error(error);
-      }
-    };
-
-    checkAuthStatus();
-  }, []);
-
   const handleLogout = useCallback(async () => {
     try {
       const currentPath = location.pathname;

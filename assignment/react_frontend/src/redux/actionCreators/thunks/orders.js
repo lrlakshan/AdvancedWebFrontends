@@ -65,6 +65,7 @@ export const getOrder = (id) => {
       );
       dispatch(setOrder(data));
     } catch (error) {
+      dispatch(setOrder({}));
       console.error(error);
       dispatch(
         setNotifications(

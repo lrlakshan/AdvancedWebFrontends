@@ -24,8 +24,12 @@ const ModifyUser = () => {
         role: role
     };
     dispatch(modifyUser(selectedUser.id, userToBeUpdated));
-    navigate(-1);
-  }, [dispatch, selectedUser]);
+
+    // Wait for a short delay before navigating away
+    setTimeout(() => {
+        navigate(-1);
+    }, 2000);
+}, [dispatch, navigate, role, selectedUser]);
 
   const handleCancel = useCallback((event) => {
     event.preventDefault();

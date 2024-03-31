@@ -35,8 +35,11 @@ const ProductDetailPage = () => {
   }, [dispatch, productId, productFetched]);
 
   const handleDelete = useCallback(() => {
-    navigate("/products");
     dispatch(deleteProduct(productId));
+    // Wait for a short delay before navigating away
+    setTimeout(() => {
+      navigate(-1);
+    }, 2000);
   }, [navigate, dispatch]);
 
   const handleModify = useCallback(() => {
@@ -64,10 +67,8 @@ const ProductDetailPage = () => {
   return (
     <div data-testid={containerId.inspect}>
       <h2>Product Detail</h2>
-      <p data-testid={textId.name}>Name: {selectedProduct.name}</p>
-      <p data-testid={textId.description}>
-        Description: {selectedProduct.description}
-      </p>
+      <p data-testid={textId.name}>{selectedProduct.name}</p>
+      <p data-testid={textId.description}>{selectedProduct.description}</p>
       <p data-testid={textId.price}>Price: {selectedProduct.price}</p>
       {USERS.admin === role ? (
         <div>
