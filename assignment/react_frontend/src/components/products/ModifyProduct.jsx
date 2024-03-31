@@ -38,7 +38,7 @@ const ModifyProduct = () => {
   const handleCancel = useCallback(
     (event) => {
       event.preventDefault();
-      navigate(`/products/${product.id}`);
+      navigate(-1);
     },
     [navigate, product.id]
   );

@@ -14,13 +14,6 @@ const OrderDetailPage = () => {
   const dispatch = useDispatch();
   const { orders, order } = useSelector((state) => state.orders);
 
-  // State variable to track if the orders has been fetched
-  // const [orderFetched, setOrderFetched] = useState(false);
-
-  // Find the selected order from the store
-  // const selectedOrder =
-  //   orders.find((order) => order.id === orderId) || order;
-
   // Dispatch getOrder action only when the order has not been fetched
   useEffect(() => {
     dispatch(getOrder(orderId));
