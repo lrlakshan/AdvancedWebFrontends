@@ -1,6 +1,6 @@
 import { axiosHelper } from "../../../utils/axiosHelper";
 import { setNotifications } from "../notificationActions";
-import { getAllUsers, getSelectedUsers, setCurrentUser, setUserRole, updateSelectedUsers } from "../userActions";
+import { deleteSelectedUsers, getAllUsers, getSelectedUsers, setCurrentUser, setUserRole, updateSelectedUsers } from "../userActions";
 import { dataTestIds, stateTypes } from "../../../tests/constants/components";
 
 export const register = (userData) => {
@@ -181,6 +181,45 @@ export const modifyUser = (id, role) => {
     
     try {
       const data = await axiosHelper.put("/users" + `/${id}`, role);
+      dispatch(updateSelectedUsers(data));
+      dispatch(
+        setNotifications(
+          stateTypes.user,
+          notificationId.success(stateTypes.user),
+          "success",
+          Date.now()
+        )
+      );
+    } catch (error) {
+      console.error(error);
+      dispatch(
+        setNotifications(
+          stateTypes.user,
+          notificationId.error(stateTypes.user),
+          error.response.data.error,
+          Date.now()
+        )
+      );
+    }
+  };
+};
+
+export const deleteUser = (userId) => {
+  const { notificationId } = dataTestIds;
+
+  return async (dispatch) => {
+
+    dispatch(
+      setNotifications(
+        stateTypes.user,
+        notificationId.loading(stateTypes.user),
+        "loading",
+        Date.now()
+      )
+    );
+    
+    try {
+      const data = await axiosHelper.delete("/users" + `/${userId}`);
 
       dispatch(
         setNotifications(
@@ -190,7 +229,7 @@ export const modifyUser = (id, role) => {
           Date.now()
         )
       );
-      dispatch(updateSelectedUsers(data));
+      dispatch(deleteSelectedUsers(userId));
     } catch (error) {
       console.error(error);
       dispatch(

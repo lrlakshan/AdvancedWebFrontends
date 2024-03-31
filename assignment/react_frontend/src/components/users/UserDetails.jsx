@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { dataTestIds } from "../../tests/constants/components";
 import NotFoundPage from "../NotFoundPage";
-import { fetchUser } from "../../redux/actionCreators/thunks/users";
+import { deleteUser, fetchUser } from "../../redux/actionCreators/thunks/users";
 
 const UserDetailsPage = () => {
   const { containerId, textId, clickId } = dataTestIds;
@@ -36,8 +36,8 @@ const UserDetailsPage = () => {
   }
 
   const handleDelete = () => {
-    // navigate("/products");
-    // dispatch(deleteProduct(productId));
+    navigate("/users");
+    dispatch(deleteUser(userId));
   };
 
   const handleModify = () => {

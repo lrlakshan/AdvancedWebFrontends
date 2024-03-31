@@ -4,6 +4,7 @@ import {
   SET_CURRENT_USER,
   GET_SELECTED_USER,
   UPDATE_USER,
+  DELETE_USER
 } from "../constants";
 
 export const setUserRole = (role) => ({
@@ -44,3 +45,8 @@ export const updateSelectedUsers = (updatedUser) => ({
   type: UPDATE_USER,
   payload: updatedUser,
 });
+
+export const deleteSelectedUsers = (userId) => ({
+    type: DELETE_USER,
+    payload: userId,
+  });

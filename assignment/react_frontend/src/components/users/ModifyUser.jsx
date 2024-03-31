@@ -24,7 +24,7 @@ const ModifyUser = () => {
         role: role
     };
     dispatch(modifyUser(selectedUser.id, userToBeUpdated));
-    navigate(`/users/${selectedUser.id}`);
+    navigate(-1);
   };
 
   const handleCancel = (event) => {
@@ -54,8 +54,8 @@ const ModifyUser = () => {
             value={role}
             onChange={handleRoleChange}
           >
-            <option value={USERS.customer}>Customer</option>
-            <option value={USERS.admin}>Admin</option>
+            <option value={USERS.customer}>customer</option>
+            <option value={USERS.admin}>admin</option>
           </select>
         </div>
         <div>
