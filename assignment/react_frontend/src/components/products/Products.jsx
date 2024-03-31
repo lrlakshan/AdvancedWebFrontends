@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { dataTestIds, stateTypes } from "../../tests/constants/components";
@@ -11,12 +11,11 @@ import {
 import { addToCart } from "../../redux/actionCreators/cartActions";
 import { setNotifications } from "../../redux/actionCreators/notificationActions";
 import { USERS } from "../../constants/constants";
+import Product from "./Product";
 
 const Products = () => {
-  const { notificationId, clickId, containerId, textId, linkId, inputId } =
-    dataTestIds;
+  const { notificationId, clickId, containerId, textId, linkId, inputId } = dataTestIds;
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { products } = useSelector((state) => state.products);
   const { role } = useSelector((state) => state.user);
 
@@ -32,36 +31,15 @@ const Products = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  const handleAddToCart = (product, quantity) => {
-    dispatch(addToCart(product, quantity));
-    dispatch(
-      setNotifications(
-        stateTypes.cart,
-        notificationId.success(stateTypes.cart),
-        "Added to cart",
-        Date.now()
-      )
-    );
-  };
-
-  const handleDelete = (productId) => {
-    dispatch(deleteProduct(productId));
-  };
-
-  const handleModify = (productId) => {
-    dispatch(getProduct(productId));
-    navigate(`/products/${productId}/modify`);
-  };
-
-  const handleNewProductChange = (e) => {
+  const handleNewProductChange = useCallback((e) => {
     const { name, value } = e.target;
     setNewProduct((prevProduct) => ({
       ...prevProduct,
       [name]: value,
     }));
-  };
+  }, []);
 
-  const handleProductSubmit = () => {
+  const handleProductSubmit = useCallback(() => {
     dispatch(addProduct(newProduct));
     setProductCreatorOpen(false);
     setNewProduct({
@@ -69,31 +47,33 @@ const Products = () => {
       price: "",
       description: "",
     });
-  };
+  }, [dispatch]);
 
-  const handleProductCancel = () => {
+  const handleProductCancel = useCallback(() => {
     setProductCreatorOpen(false);
     setNewProduct({
       name: "",
       price: "",
       description: "",
     });
-  };
+  }, []);
+
+  const openAddProductInfo = useCallback(() => {
+    setProductCreatorOpen(true);
+  }, []);
 
   return (
     <div data-testid={containerId.main}>
-      {/* Add Product Button (only for admin) */}
       <div>
         {USERS.admin === role && (
           <button
-            onClick={() => setProductCreatorOpen(true)}
+            onClick={openAddProductInfo}
             data-testid={clickId.add}
           >
             Add New Product
           </button>
         )}
       </div>
-      {/* Product Creator Form */}
       {isProductCreatorOpen && (
         <div data-testid={containerId.form}>
           <div>
@@ -136,45 +116,7 @@ const Products = () => {
         </div>
       )}
       <h2>Products</h2>
-      {products.length === 0 ? (
-        <div data-testid={containerId.empty}>No products exist</div>
-      ) : (
-        products.map((product) => (
-          <div key={product.id} data-testid={containerId.listItem(product.id)}>
-            <p data-testid={textId.name}>{product.name}</p>
-            <p data-testid={textId.value}>Price: {product.price}</p>
-            <Link
-              to={`/products/${product.id}`}
-              data-testid={linkId.inspect(product.id)}
-            >
-              Inspect
-            </Link>
-            {USERS.admin === role ? (
-              <div>
-                <button
-                  data-testid={clickId.delete}
-                  onClick={() => handleDelete(product.id)}
-                >
-                  Delete
-                </button>
-                <button
-                  data-testid={clickId.modify}
-                  onClick={() => handleModify(product.id)}
-                >
-                  Modify
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => handleAddToCart(product, 1)}
-                data-testid={clickId.add}
-              >
-                Add to Cart
-              </button>
-            )}
-          </div>
-        ))
-      )}
+      <Product products={products}/>
     </div>
   );
 };

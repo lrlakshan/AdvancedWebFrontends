@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { USERS } from "../../constants/constants";
@@ -34,30 +34,32 @@ const ProductDetailPage = () => {
     }
   }, [dispatch, productId, productFetched]);
 
+  const handleDelete = useCallback(() => {
+    navigate("/products");
+    dispatch(deleteProduct(productId));
+  }, [navigate, dispatch]);
+
+  const handleModify = useCallback(() => {
+    navigate(`/products/${productId}/modify`);
+  }, [navigate]);
+
+  const handleAddToCart = useCallback((product, quantity) => {
+    return () => {
+      dispatch(addToCart(product, quantity));
+      dispatch(
+        setNotifications(
+          stateTypes.cart,
+          notificationId.success(stateTypes.cart),
+          "Added to cart",
+          Date.now()
+        )
+      );
+    }
+  }, [dispatch]);
+
   if (!selectedProduct && !productFetched) {
     return <NotFoundPage />;
   }
-
-  const handleDelete = () => {
-    navigate("/products");
-    dispatch(deleteProduct(productId));
-  };
-
-  const handleModify = () => {
-    navigate(`/products/${productId}/modify`);
-  };
-
-  const handleAddToCart = (product, quantity) => {
-    dispatch(addToCart(product, quantity));
-    dispatch(
-      setNotifications(
-        stateTypes.cart,
-        notificationId.success(stateTypes.cart),
-        "Added to cart",
-        Date.now()
-      )
-    );
-  };
 
   return (
     <div data-testid={containerId.inspect}>
@@ -78,7 +80,7 @@ const ProductDetailPage = () => {
         </div>
       ) : (
         <button
-          onClick={() => handleAddToCart(product, 1)}
+          onClick={handleAddToCart(product, 1)}
           data-testid={clickId.add}
         >
           Add to Cart

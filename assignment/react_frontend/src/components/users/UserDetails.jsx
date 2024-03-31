@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { dataTestIds } from "../../tests/constants/components";
@@ -17,27 +17,33 @@ const UserDetailsPage = () => {
     (state) => state.user
   );
 
-  // Find the selected user from the store
-  //const userFound = allUsers.find((user) => user.id === userId) || selectedUser;
-
   // Dispatch getUser action only when the user has not been fetched
   useEffect(() => {
     dispatch(fetchUser(userId));
   }, [dispatch, userId]);
-  console.log("userFound", Object.keys(selectedUser).length === 0);
 
-  if ((Object.keys(selectedUser).length === 0)) {
+  const handleDelete = useCallback(
+    (userId) => {
+      return () => {
+        navigate("/users");
+        dispatch(deleteUser(userId));
+      };
+    },
+    [navigate, dispatch]
+  );
+
+  const handleModify = useCallback(
+    (userId) => {
+      return () => {
+        navigate(`/users/${userId}/modify`);
+      };
+    },
+    [navigate]
+  );
+
+  if (Object.keys(selectedUser).length === 0) {
     return <NotFoundPage />;
   }
-
-  const handleDelete = () => {
-    navigate("/users");
-    dispatch(deleteUser(userId));
-  };
-
-  const handleModify = () => {
-    navigate(`/users/${userId}/modify`);
-  };
 
   return (
     <div data-testid={containerId.inspect}>
