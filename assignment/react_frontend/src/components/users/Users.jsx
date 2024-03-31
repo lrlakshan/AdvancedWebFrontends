@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchUser, fetchUsers } from "../../redux/actionCreators/thunks/users";
+import { deleteUser, fetchUser, fetchUsers } from "../../redux/actionCreators/thunks/users";
 import { dataTestIds, stateTypes } from "../../tests/constants/components";
 import { setNotifications } from "../../redux/actionCreators/notificationActions";
 
@@ -16,8 +16,7 @@ const Users = () => {
   }, [dispatch]);
 
   const handleDelete = (userId) => {
-    //TODO
-    //dispatch(deleteUser(userId));
+    dispatch(deleteUser(userId));
   };
 
   const handleModify = (userId) => {
