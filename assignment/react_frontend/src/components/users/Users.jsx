@@ -17,14 +17,14 @@ const Users = () => {
   const handleDelete = useCallback((userId) => {
     return () => {
       dispatch(deleteUser(userId));
-    }
+    };
   }, [dispatch]);
-
+  
   const handleModify = useCallback((userId) => {
     return () => {
       dispatch(fetchUser(userId));
       navigate(`/users/${userId}/modify`);
-    }
+    };
   }, [dispatch, navigate]);
 
   return (

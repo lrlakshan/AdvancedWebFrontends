@@ -18,14 +18,14 @@ const ModifyUser = () => {
     setRole(selectedUser.role || USERS.customer);
   }, [selectedUser]);
 
-  const handleSubmit = ((event) => {
+  const handleSubmit = useCallback((event) => {
     event.preventDefault();
     const userToBeUpdated = {
         role: role
     };
     dispatch(modifyUser(selectedUser.id, userToBeUpdated));
     navigate(-1);
-  }, [dispatch, selectedUser, navigate]);
+  }, [dispatch, selectedUser]);
 
   const handleCancel = useCallback((event) => {
     event.preventDefault();
